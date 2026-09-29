@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sms_flydove_message_system,sms.flydove.message.system,model_sms_flydove_message,base.group_system,1,1,1,1

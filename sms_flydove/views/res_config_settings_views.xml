@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sms_flydove</field>
+        <field name="model">res.config.settings</field>
+        <!-- anchor: <div id="contacts_settings"> in base_setup/views/res_config_settings_views.xml -->
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <div id="contacts_settings" position="after">
+                <div id="flydove_sms_settings" groups="base.group_system">
+                    <block title="SMS Provider" name="flydove_sms_setting_container">
+                        <setting id="flydove_sms_provider" string="SMS Provider"
+                                 help="Which service sends all Odoo SMS (SMS marketing, chatter, templates)">
+                            <field name="flydove_sms_provider" widget="radio" class="o_light_label"/>
+                            <div class="content-group mt16" invisible="flydove_sms_provider != 'flydove'">
+                                <div class="row">
+                                    <label for="flydove_api_token" class="col-lg-4 o_light_label"/>
+                                    <field name="flydove_api_token" password="True"
+                                           required="flydove_sms_provider == 'flydove'"/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="flydove_api_endpoint" class="col-lg-4 o_light_label"/>
+                                    <field name="flydove_api_endpoint"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>

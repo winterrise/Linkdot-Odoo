@@ -1,0 +1,148 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sms_flydove
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250428\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 07:17+0000\n"
+"PO-Revision-Date: 2026-09-29 07:17+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sms_flydove
+#: model:ir.model.fields,help:sms_flydove.field_res_config_settings__flydove_api_token
+msgid "Admin API Token from https://console2.flydove.net/apis"
+msgstr "到 https://console2.flydove.net/apis 取得 Admin API Token"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__batch_id
+msgid "Batch"
+msgstr "批次"
+
+#. module: sms_flydove
+#: model:ir.model,name:sms_flydove.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__create_uid
+msgid "Created by"
+msgstr "建立人員"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__create_date
+msgid "Created on"
+msgstr "建立於"
+
+#. module: sms_flydove
+#: model:ir.model.fields,help:sms_flydove.field_sms_flydove_message__number
+msgid "Digits only, as returned by the Flydove query API"
+msgstr "僅數字，與飛信查詢 API 回傳格式相同"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__display_name
+msgid "Display Name"
+msgstr "顯示名稱"
+
+#. module: sms_flydove
+#: model:ir.model.fields.selection,name:sms_flydove.selection__sms_flydove_message__state__done
+msgid "Final"
+msgstr "已結案"
+
+#. module: sms_flydove
+#: model:ir.model.fields.selection,name:sms_flydove.selection__res_config_settings__flydove_sms_provider__flydove
+msgid "Flydove (flydove.net)"
+msgstr "飛信資訊（flydove.net）"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_res_config_settings__flydove_api_endpoint
+msgid "Flydove API Endpoint"
+msgstr "飛信 API 網址"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_res_config_settings__flydove_api_token
+msgid "Flydove API Token"
+msgstr "飛信 API Token"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__flydove_code
+msgid "Flydove Code"
+msgstr "飛信狀態碼"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__flydove_description
+msgid "Flydove Description"
+msgstr "飛信狀態說明"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__id
+msgid "ID"
+msgstr "識別號"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__write_uid
+msgid "Last Updated by"
+msgstr "最後更新者"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__write_date
+msgid "Last Updated on"
+msgstr "最後更新於"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__number
+msgid "Number"
+msgstr "號碼"
+
+#. module: sms_flydove
+#: model:ir.model.fields.selection,name:sms_flydove.selection__res_config_settings__flydove_sms_provider__iap
+msgid "Odoo (IAP credits)"
+msgstr "Odoo 官方（IAP 點數）"
+
+#. module: sms_flydove
+#: model:ir.model,name:sms_flydove.model_sms_sms
+msgid "Outgoing SMS"
+msgstr "出向簡訊"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_res_config_settings__flydove_sms_provider
+#: model_terms:ir.ui.view,arch_db:sms_flydove.res_config_settings_view_form
+msgid "SMS Provider"
+msgstr "簡訊服務商"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__sms_uuid
+msgid "SMS UUID"
+msgstr "簡訊 UUID"
+
+#. module: sms_flydove
+#: model:ir.model,name:sms_flydove.model_sms_flydove_message
+msgid "SMS sent through Flydove"
+msgstr "經飛信發送的簡訊"
+
+#. module: sms_flydove
+#: model:ir.actions.server,name:sms_flydove.ir_cron_poll_delivery_ir_actions_server
+msgid "SMS: Flydove delivery reports"
+msgstr "簡訊：飛信送達狀態"
+
+#. module: sms_flydove
+#: model:ir.model.fields,field_description:sms_flydove.field_sms_flydove_message__state
+msgid "State"
+msgstr "狀態"
+
+#. module: sms_flydove
+#: model:ir.model.fields.selection,name:sms_flydove.selection__sms_flydove_message__state__pending
+msgid "Waiting for delivery report"
+msgstr "等待送達回報"
+
+#. module: sms_flydove
+#: model_terms:ir.ui.view,arch_db:sms_flydove.res_config_settings_view_form
+msgid "Which service sends all Odoo SMS (SMS marketing, chatter, templates)"
+msgstr "所有 Odoo 簡訊（簡訊行銷、聊天室、範本）由哪個服務發送"
