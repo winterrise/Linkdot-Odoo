@@ -53,6 +53,7 @@ class LinkdotHealthCheck(models.Model):
     state = fields.Selection([
         ('draft', 'To Schedule'),
         ('scheduled', 'Scheduled'),
+        ('reported', 'Report Submitted'),
         ('done', 'Done'),
         ('cancelled', 'Cancelled'),
     ], string='Status', required=True, default='draft', tracking=True, copy=False)
@@ -76,9 +77,9 @@ class LinkdotHealthCheck(models.Model):
     ], string='Health Management Level', tracking=True, copy=False,
         help="Health management level of a special health check (Labor Health Protection Rules, Article 21).")
     result_summary = fields.Text(string='Result Summary', copy=False)
-    report_attachment_ids = fields.Many2many(
-        'ir.attachment', string='Reports', copy=False,
-        help="Scanned or electronic health check reports.")
+    # 掃描報告只放在共用雲端硬碟，這裡只有檔名與連結（18.0.1.4.0 起取代原本的附件欄位）
+    report_ids = fields.One2many('linkdot.health.check.report', 'check_id', string='Reports')
+    report_count = fields.Integer(compute='_compute_report_count')
 
     follow_up_required = fields.Boolean(
         string='Follow-up Required', compute='_compute_follow_up_required',
@@ -104,6 +105,11 @@ class LinkdotHealthCheck(models.Model):
             if date:
                 parts.append(fields.Date.to_string(date))
             check.name = ' - '.join(p for p in parts if p)
+
+    @api.depends('report_ids')
+    def _compute_report_count(self):
+        for check in self:
+            check.report_count = len(check.report_ids)
 
     @api.depends('result', 'management_level')
     def _compute_follow_up_required(self):
@@ -147,7 +153,7 @@ class LinkdotHealthCheck(models.Model):
     def write(self, vals):
         res = super().write(vals)
         # 有人處理了，就把所有健康管理人員手上同一筆的提醒一起關掉
-        if vals.get('state') in ('scheduled', 'done', 'cancelled'):
+        if vals.get('state') in ('scheduled', 'reported', 'done', 'cancelled'):
             self.activity_feedback([SCHEDULE_ACTIVITY])
         if {'state', 'result', 'management_level', 'follow_up_required', 'follow_up_date',
                 'follow_up_done'} & set(vals):

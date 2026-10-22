@@ -6,14 +6,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250428\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 05:05+0000\n"
-"PO-Revision-Date: 2026-10-22 05:05+0000\n"
+"POT-Creation-Date: 2026-10-22 05:52+0000\n"
+"PO-Revision-Date: 2026-10-22 05:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid ""
+"%s has no employee number (Badge ID), so the report cannot be named. Please "
+"ask HR to fill it in."
+msgstr ""
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.hr_employee_view_form
@@ -80,6 +88,18 @@ msgid "Add a medical institution"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid ""
+"Add this address to the Shared Drive as <b>Content manager</b>, save, then "
+"test the connection."
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_drive_account
+msgid "Add this address to the Shared Drive as Content manager."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__address
 msgid "Address"
 msgstr ""
@@ -117,6 +137,7 @@ msgstr ""
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__check_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__check_date
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
 msgid "Check Date"
 msgstr ""
@@ -124,6 +145,7 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__check_type
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__check_type
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__check_type
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
 msgid "Check Type"
 msgstr ""
@@ -143,6 +165,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__company_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__company_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__company_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__company_id
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__paid_by__company
 msgid "Company"
 msgstr ""
@@ -166,8 +189,19 @@ msgid "Configuration"
 msgstr ""
 
 #. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/res_config_settings.py:0
+msgid "Connected to Google Drive folder “%s”."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__contact_name
 msgid "Contact Person"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_drive_credentials
+msgid "Contents of the JSON key file of the Google Cloud service account."
 msgstr ""
 
 #. module: linkdot_health_check
@@ -197,6 +231,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__create_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__create_uid
 msgid "Created by"
 msgstr ""
 
@@ -204,6 +240,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__create_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__create_date
 msgid "Created on"
 msgstr ""
 
@@ -227,6 +265,7 @@ msgstr ""
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_plan_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_report_upload_view_form
 msgid "Discard"
 msgstr ""
 
@@ -235,6 +274,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__display_name
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__display_name
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__display_name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__display_name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -258,6 +299,8 @@ msgstr ""
 #: model:ir.model,name:linkdot_health_check.model_hr_employee
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__employee_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__employee_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__employee_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__employee_id
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__paid_by__employee
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
@@ -293,6 +336,16 @@ msgstr ""
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_plan_wizard_view_form
 msgid "Employees..."
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__name
+msgid "File Name"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__filename
+msgid "Filename"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -355,6 +408,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__general
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__general
 msgid "General Health Check"
 msgstr ""
 
@@ -362,6 +416,24 @@ msgstr ""
 #. odoo-python
 #: code:addons/linkdot_health_check/models/hr_employee.py:0
 msgid "General health check due for %s."
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__drive_file_id
+msgid "Google Drive File ID"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__drive_url
+msgid "Google Drive Link"
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid ""
+"Google Drive is not set up for health check reports yet. Please ask a Health"
+" Check Administrator. (%s)"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -383,6 +455,12 @@ msgid ""
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__check_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__check_id
+msgid "Health Check"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_hr_employee__health_check_count
 msgid "Health Check Count"
 msgstr ""
@@ -395,6 +473,11 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_provider
 msgid "Health Check Medical Institution"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_report
+msgid "Health Check Report"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -423,6 +506,14 @@ msgid "Health Management Level"
 msgstr ""
 
 #. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid ""
+"Health check reports must be retained and can only be deleted by a Health "
+"Check Administrator."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__management_level
 msgid ""
 "Health management level of a special health check (Labor Health Protection "
@@ -434,6 +525,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__id
 msgid "ID"
 msgstr ""
 
@@ -469,6 +562,11 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__is_officer
+msgid "Is Officer"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__job_title
 msgid "Job Title"
 msgstr ""
@@ -483,6 +581,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__write_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -490,6 +590,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__write_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -656,8 +758,14 @@ msgid ""
 msgstr ""
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Open in Google Drive"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__other
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__other
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__other
 msgid "Other"
 msgstr ""
 
@@ -673,14 +781,39 @@ msgid "Paid By"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_drive_folder
+msgid ""
+"Paste the Shared Drive (or a folder inside it) link from the browser, or its"
+" ID. Reports go into a sub-folder per year."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__phone
 msgid "Phone"
 msgstr ""
 
 #. module: linkdot_health_check
 #. odoo-python
+#: code:addons/linkdot_health_check/wizard/linkdot_health_check_report_upload.py:0
+msgid "Please choose the scanned report file."
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "Please set the check date first."
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
 #: code:addons/linkdot_health_check/models/linkdot_health_check.py:0
 msgid "Please set the scheduled date of %s first."
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "Please upload a PDF, JPG or PNG file."
 msgstr ""
 
 #. module: linkdot_health_check
@@ -691,6 +824,7 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__pre_employment
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__pre_employment
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__pre_employment
 msgid "Pre-employment Physical Examination"
 msgstr ""
 
@@ -715,7 +849,30 @@ msgid "Reminder Lead Time"
 msgstr ""
 
 #. module: linkdot_health_check
-#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__report_attachment_ids
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__report_count
+msgid "Report Count"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "Report Storage (Google Shared Drive)"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__state__reported
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
+msgid "Report Submitted"
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/wizard/linkdot_health_check_report_upload.py:0
+msgid "Report uploaded to Google Drive as %s."
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__report_ids
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
 msgid "Reports"
 msgstr ""
 
@@ -746,8 +903,16 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: linkdot_health_check
-#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__report_attachment_ids
-msgid "Scanned or electronic health check reports."
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__file
+msgid "Scanned Report"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid ""
+"Scanned reports are stored only in this Shared Drive folder, in a sub-folder"
+" per year, named EmployeeNumber_CheckType_Date (e.g. "
+"0013_一般健康檢查_20261022.pdf)."
 msgstr ""
 
 #. module: linkdot_health_check
@@ -797,14 +962,36 @@ msgid "Sequence"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_res_config_settings__health_check_drive_account
+msgid "Service Account"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_res_config_settings__health_check_drive_credentials
+msgid "Service Account Key"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_settings_action
 #: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_settings
 msgid "Settings"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_res_config_settings__health_check_drive_folder
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "Shared Drive Folder"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__file_size
+msgid "Size (bytes)"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__special_hazard
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__special_hazard
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__special_hazard
 msgid "Special Hazardous Work"
 msgstr ""
 
@@ -812,6 +999,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__special
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__special
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_search
 msgid "Special Health Check"
 msgstr ""
@@ -834,6 +1022,26 @@ msgstr ""
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
 msgid "Summary of findings and physician recommendations..."
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "Test Connection"
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "The file is larger than %s MB."
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/res_config_settings.py:0
+msgid ""
+"The service account cannot open this folder. Check that the folder link is right and that %(account)s is a member of the Shared Drive.\n"
+"\n"
+"%(error)s"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -865,6 +1073,46 @@ msgid "Up to Date"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_report_upload_view_form
+msgid "Upload"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_report_upload_action
+#: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_report_upload
+msgid "Upload Health Check Report"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_upload_report
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Upload Report"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_report_upload_view_form
+msgid ""
+"Upload the scanned paper report (PDF, JPG or PNG). It is stored only in the company's\n"
+"                    Google Shared Drive and renamed to the standard name, e.g. 0013_一般健康檢查_20261022.pdf."
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Uploaded By"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Uploaded On"
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "Uploading to Google Drive failed: %s"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__website_message_ids
 msgid "Website Messages"
 msgstr ""
@@ -875,6 +1123,12 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/wizard/linkdot_health_check_report_upload.py:0
+msgid "You can only upload your own health check reports."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
 msgid "days"
 msgstr ""
@@ -882,4 +1136,20 @@ msgstr ""
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
 msgid "e.g. National Taiwan University Hospital"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "https://drive.google.com/drive/folders/..."
+msgstr ""
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/res_config_settings.py:0
+msgid "the service account"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "{\"type\": \"service_account\", ...}"
 msgstr ""

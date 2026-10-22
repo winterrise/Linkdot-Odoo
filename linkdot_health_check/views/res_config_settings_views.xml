@@ -14,6 +14,35 @@
                             <field name="health_check_reminder_days" class="oe_inline"/> days
                         </setting>
                     </block>
+                    <block title="Report Storage (Google Shared Drive)" name="health_check_drive_setting_container">
+                        <setting id="health_check_drive" string="Shared Drive Folder"
+                                 help="Scanned reports are stored only in this Shared Drive folder, in a sub-folder per year, named EmployeeNumber_CheckType_Date (e.g. 0013_一般健康檢查_20261022.pdf).">
+                            <div class="content-group">
+                                <div class="row mt8">
+                                    <label for="health_check_drive_folder" class="col-lg-4 o_light_label"/>
+                                    <field name="health_check_drive_folder" class="col-lg-8"
+                                           placeholder="https://drive.google.com/drive/folders/..."/>
+                                </div>
+                                <div class="row mt8">
+                                    <label for="health_check_drive_credentials" class="col-lg-4 o_light_label"/>
+                                    <field name="health_check_drive_credentials" password="True" class="col-lg-8"
+                                           placeholder='{"type": "service_account", ...}'/>
+                                </div>
+                                <div class="row mt8" invisible="not health_check_drive_account">
+                                    <label for="health_check_drive_account" class="col-lg-4 o_light_label"/>
+                                    <field name="health_check_drive_account" class="col-lg-8" readonly="1"/>
+                                </div>
+                                <div class="mt8 text-muted small" invisible="not health_check_drive_account">
+                                    Add this address to the Shared Drive as <b>Content manager</b>, save, then test the connection.
+                                </div>
+                                <div class="mt8">
+                                    <button name="action_health_check_test_drive" type="object" string="Test Connection"
+                                            icon="fa-plug" class="btn-link"
+                                            invisible="not health_check_drive_folder or not health_check_drive_credentials"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
                 </app>
             </xpath>
         </field>

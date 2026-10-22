@@ -5,3 +5,6 @@ access_linkdot_health_check_plan_wizard_officer,linkdot.health.check.plan.wizard
 access_linkdot_health_check_provider_user,linkdot.health.check.provider.user,model_linkdot_health_check_provider,base.group_user,1,0,0,0
 access_linkdot_health_check_provider_manager,linkdot.health.check.provider.manager,model_linkdot_health_check_provider,group_health_check_manager,1,1,1,1
 access_linkdot_health_check_employee_status_officer,linkdot.health.check.employee.status.officer,model_linkdot_health_check_employee_status,group_health_check_officer,1,0,0,0
+access_linkdot_health_check_report_user,linkdot.health.check.report.user,model_linkdot_health_check_report,base.group_user,1,0,0,0
+access_linkdot_health_check_report_manager,linkdot.health.check.report.manager,model_linkdot_health_check_report,group_health_check_manager,1,0,0,1
+access_linkdot_health_check_report_upload_user,linkdot.health.check.report.upload.user,model_linkdot_health_check_report_upload,base.group_user,1,1,1,0
