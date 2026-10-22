@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 有啟用的 OAuth 服務時，登入頁只留 OAuth 按鈕；管理者用 /web/login?password_login=1 以密碼登入 -->
+    <template id="login" inherit_id="web.login" name="OAuth only login">
+        <!-- anchor: <input name="csrf_token"> inside the login form in web/views/webclient_templates.xml -->
+        <xpath expr="//input[@name='csrf_token']" position="after">
+            <t t-set="linkdot_oauth_only" t-value="bool(providers) and request.params.get('password_login') != '1'"/>
+        </xpath>
+        <xpath expr="//div[hasclass('field-login')]" position="attributes">
+            <attribute name="t-if">not linkdot_oauth_only</attribute>
+        </xpath>
+        <xpath expr="//input[@name='password']/.." position="attributes">
+            <attribute name="t-if">not linkdot_oauth_only</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('oe_login_buttons')]/button[@type='submit']" position="attributes">
+            <attribute name="t-if">not linkdot_oauth_only</attribute>
+        </xpath>
+        <xpath expr="//input[@name='redirect']" position="after">
+            <input t-if="providers and not linkdot_oauth_only" type="hidden" name="password_login" value="1"/>
+        </xpath>
+    </template>
+
+    <template id="providers" inherit_id="auth_oauth.providers" name="OAuth only: no separator">
+        <xpath expr="//em" position="attributes">
+            <attribute name="t-if">not linkdot_oauth_only</attribute>
+        </xpath>
+    </template>
+</odoo>
