@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="linkdot_health_check_view_list" model="ir.ui.view">
+        <field name="name">linkdot.health.check.list</field>
+        <field name="model">linkdot.health.check</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'" decoration-danger="follow_up_required and not follow_up_done"
+                  sample="1">
+                <field name="employee_id" widget="many2one_avatar_employee"/>
+                <field name="department_id" optional="show"/>
+                <field name="check_type"/>
+                <field name="special_hazard" optional="hide"/>
+                <field name="provider_id" optional="show"/>
+                <field name="scheduled_date" optional="show"/>
+                <field name="check_date"/>
+                <field name="result" widget="badge"
+                       decoration-success="result == 'normal'" decoration-danger="result == 'abnormal'"/>
+                <field name="management_level" optional="hide"/>
+                <field name="follow_up_required" optional="show"/>
+                <field name="follow_up_done" optional="hide"/>
+                <field name="cost" optional="hide" sum="Total"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'" decoration-warning="state == 'scheduled'"
+                       decoration-success="state == 'done'"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_view_form" model="ir.ui.view">
+        <field name="name">linkdot.health.check.form</field>
+        <field name="model">linkdot.health.check</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_schedule" string="Mark as Scheduled" type="object" class="btn-primary"
+                            invisible="state != 'draft'" groups="linkdot_health_check.group_health_check_officer"/>
+                    <button name="action_done" string="Mark as Done" type="object" class="btn-primary"
+                            invisible="state not in ('draft', 'scheduled')"
+                            groups="linkdot_health_check.group_health_check_officer"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancelled')"
+                            groups="linkdot_health_check.group_health_check_officer"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object"
+                            invisible="state not in ('done', 'cancelled')"
+                            groups="linkdot_health_check.group_health_check_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,scheduled,done"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Follow-up" bg_color="text-bg-danger"
+                            invisible="not follow_up_required or follow_up_done"/>
+                    <div class="oe_title">
+                        <h1><field name="employee_id" placeholder="Employee" widget="many2one_avatar_employee"
+                                   readonly="state == 'done'"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="check_type" readonly="state == 'done'"/>
+                            <field name="special_hazard" invisible="check_type != 'special'"
+                                   required="check_type == 'special'"/>
+                            <field name="department_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="provider_id" options="{'no_create': True}"/>
+                            <field name="scheduled_date"/>
+                            <field name="check_date" required="state == 'done'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="result" string="Result">
+                            <group>
+                                <group>
+                                    <field name="result" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="management_level" invisible="check_type != 'special'"/>
+                                </group>
+                                <group>
+                                    <field name="report_attachment_ids" widget="many2many_binary"/>
+                                </group>
+                            </group>
+                            <field name="result_summary" placeholder="Summary of findings and physician recommendations..."/>
+                        </page>
+                        <page name="follow_up" string="Follow-up">
+                            <group>
+                                <group>
+                                    <field name="follow_up_required"/>
+                                    <field name="follow_up_date" invisible="not follow_up_required"/>
+                                    <field name="follow_up_done" invisible="not follow_up_required"/>
+                                </group>
+                            </group>
+                            <field name="follow_up_note" invisible="not follow_up_required"
+                                   placeholder="Re-examination, work adjustment, health education..."/>
+                        </page>
+                        <page name="cost" string="Cost &amp; Notes">
+                            <group>
+                                <group>
+                                    <field name="cost"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="paid_by"/>
+                                </group>
+                            </group>
+                            <field name="note" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_view_search" model="ir.ui.view">
+        <field name="name">linkdot.health.check.search</field>
+        <field name="model">linkdot.health.check</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="provider_id"/>
+                <field name="special_hazard"/>
+                <filter name="my_checks" string="My Health Checks" domain="[('employee_id.user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="to_schedule" string="To Schedule" domain="[('state', '=', 'draft')]"/>
+                <filter name="scheduled" string="Scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter name="follow_up_open" string="Follow-up Pending"
+                        domain="[('follow_up_required', '=', True), ('follow_up_done', '=', False)]"/>
+                <filter name="abnormal" string="Abnormal" domain="[('result', '=', 'abnormal')]"/>
+                <separator/>
+                <filter name="check_date" string="Check Date" date="check_date"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="group_type" string="Check Type" context="{'group_by': 'check_type'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_check_date" string="Check Date" context="{'group_by': 'check_date:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_view_calendar" model="ir.ui.view">
+        <field name="name">linkdot.health.check.calendar</field>
+        <field name="model">linkdot.health.check</field>
+        <field name="arch" type="xml">
+            <calendar date_start="scheduled_date" color="check_type" mode="month" quick_create="0">
+                <field name="employee_id" avatar_field="avatar_128"/>
+                <field name="provider_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_view_pivot" model="ir.ui.view">
+        <field name="name">linkdot.health.check.pivot</field>
+        <field name="model">linkdot.health.check</field>
+        <field name="arch" type="xml">
+            <pivot sample="1">
+                <field name="check_date" interval="year" type="row"/>
+                <field name="check_type" type="col"/>
+                <field name="cost" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_action" model="ir.actions.act_window">
+        <field name="name">Health Checks</field>
+        <field name="res_model">linkdot.health.check</field>
+        <field name="view_mode">list,form,calendar,pivot</field>
+        <field name="search_view_id" ref="linkdot_health_check_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record an employee health check</p>
+            <p>Track pre-employment, general and special health checks, their results and follow-ups.</p>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_action_follow_up" model="ir.actions.act_window">
+        <field name="name">Follow-ups</field>
+        <field name="res_model">linkdot.health.check</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="linkdot_health_check_view_search"/>
+        <field name="context">{'search_default_follow_up_open': 1}</field>
+    </record>
+
+    <record id="linkdot_health_check_action_my" model="ir.actions.act_window">
+        <field name="name">My Health Checks</field>
+        <field name="res_model">linkdot.health.check</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="linkdot_health_check_view_search"/>
+        <field name="context">{'search_default_my_checks': 1, 'create': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">No health checks recorded for you yet</p>
+        </field>
+    </record>
+</odoo>

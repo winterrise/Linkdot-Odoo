@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="linkdot_health_check_provider_view_list" model="ir.ui.view">
+        <field name="name">linkdot.health.check.provider.list</field>
+        <field name="model">linkdot.health.check.provider</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="address" optional="show"/>
+                <field name="contact_name" optional="show"/>
+                <field name="offers_pre_employment"/>
+                <field name="offers_general"/>
+                <field name="offers_special"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_provider_view_form" model="ir.ui.view">
+        <field name="name">linkdot.health.check.provider.form</field>
+        <field name="model">linkdot.health.check.provider</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. National Taiwan University Hospital"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="phone" widget="phone"/>
+                            <field name="address"/>
+                            <field name="contact_name"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Check Types Offered">
+                            <field name="offers_pre_employment"/>
+                            <field name="offers_general"/>
+                            <field name="offers_special"/>
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Contract, prices, booking instructions..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_provider_view_search" model="ir.ui.view">
+        <field name="name">linkdot.health.check.provider.search</field>
+        <field name="model">linkdot.health.check.provider</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="offers_special" string="Special Health Check" domain="[('offers_special', '=', True)]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_provider_action" model="ir.actions.act_window">
+        <field name="name">Medical Institutions</field>
+        <field name="res_model">linkdot.health.check.provider</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a medical institution</p>
+            <p>Officers can only pick institutions from this list when scheduling health checks.</p>
+        </field>
+    </record>
+</odoo>

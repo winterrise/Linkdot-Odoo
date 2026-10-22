@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="linkdot_health_check_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'linkdot_health_check', 'bin_size': False}</field>
+    </record>
+
+    <menuitem id="menu_health_check_root" name="Health Checks"
+              web_icon="linkdot_health_check,static/description/icon.png" sequence="76"
+              groups="base.group_user"/>
+
+    <menuitem id="menu_health_check_my" name="My Health Checks" parent="menu_health_check_root"
+              action="linkdot_health_check_action_my" sequence="5"/>
+
+    <menuitem id="menu_health_check_records" name="Health Checks" parent="menu_health_check_root"
+              sequence="10" groups="group_health_check_officer"/>
+    <menuitem id="menu_health_check_all" name="All Health Checks" parent="menu_health_check_records"
+              action="linkdot_health_check_action" sequence="10"/>
+    <menuitem id="menu_health_check_follow_up" name="Follow-ups" parent="menu_health_check_records"
+              action="linkdot_health_check_action_follow_up" sequence="20"/>
+    <menuitem id="menu_health_check_plan" name="Schedule Health Checks" parent="menu_health_check_records"
+              action="linkdot_health_check_plan_wizard_action" sequence="30"/>
+
+    <menuitem id="menu_health_check_employee_status" name="Employee Status" parent="menu_health_check_root"
+              action="linkdot_health_check_employee_status_action" sequence="20" groups="group_health_check_officer"/>
+
+    <menuitem id="menu_health_check_config" name="Configuration" parent="menu_health_check_root"
+              sequence="90" groups="group_health_check_manager"/>
+    <menuitem id="menu_health_check_settings" name="Settings" parent="menu_health_check_config"
+              action="linkdot_health_check_settings_action" sequence="10" groups="base.group_system"/>
+    <menuitem id="menu_health_check_provider" name="Medical Institutions" parent="menu_health_check_config"
+              action="linkdot_health_check_provider_action" sequence="20"/>
+</odoo>

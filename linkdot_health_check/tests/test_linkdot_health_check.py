@@ -1,0 +1,268 @@
+from datetime import date
+
+from freezegun import freeze_time
+from psycopg2 import IntegrityError
+
+from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.tests import TransactionCase, new_test_user, tagged
+from odoo.tools.safe_eval import safe_eval
+from odoo.tools import mute_logger
+
+
+@tagged('post_install', '-at_install')
+class TestLinkdotHealthCheck(TransactionCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.officer = new_test_user(
+            cls.env, login='hc_officer', groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        cls.staff_user = new_test_user(cls.env, login='hc_staff', groups='base.group_user')
+        cls.other_user = new_test_user(cls.env, login='hc_other', groups='base.group_user')
+        Employee = cls.env['hr.employee']
+        cls.staff = Employee.create({
+            'name': 'Staff', 'user_id': cls.staff_user.id, 'birthday': date(1990, 6, 1)})
+        cls.other = Employee.create({
+            'name': 'Other', 'user_id': cls.other_user.id, 'birthday': date(1960, 1, 1)})
+        cls.Check = cls.env['linkdot.health.check']
+
+    def _done_check(self, employee, check_date, check_type='general', **vals):
+        return self.Check.create(dict(
+            employee_id=employee.id, check_type=check_type, check_date=check_date, state='done', **vals))
+
+    def test_interval_by_age(self):
+        Employee = self.env['hr.employee']
+        self.assertEqual(Employee._get_general_check_interval(30), 5)
+        self.assertEqual(Employee._get_general_check_interval(40), 3)
+        self.assertEqual(Employee._get_general_check_interval(64), 3)
+        self.assertEqual(Employee._get_general_check_interval(65), 1)
+
+    def test_next_date_under_40(self):
+        self._done_check(self.staff, date(2020, 3, 1))
+        self.assertEqual(self.staff.last_health_check_date, date(2020, 3, 1))
+        # 2025-03-01 時 34 歲，每 5 年
+        self.assertEqual(self.staff.next_health_check_date, date(2025, 3, 1))
+
+    def test_next_date_crossing_40(self):
+        # 2028-03-01 檢查時 37 歲；2031-03-01 時 40 歲，週期縮短為 3 年
+        self._done_check(self.staff, date(2028, 3, 1))
+        self.assertEqual(self.staff.next_health_check_date, date(2031, 3, 1))
+
+    def test_next_date_over_65(self):
+        self._done_check(self.other, date(2026, 5, 1))
+        self.assertEqual(self.other.next_health_check_date, date(2027, 5, 1))
+
+    def test_pre_employment_resets_cycle_special_does_not(self):
+        self._done_check(self.staff, date(2024, 1, 10), check_type='pre_employment')
+        self._done_check(self.staff, date(2025, 1, 10), check_type='special', special_hazard='Noise')
+        self.assertEqual(self.staff.last_health_check_date, date(2024, 1, 10))
+
+    def test_special_requires_hazard(self):
+        with self.assertRaises(ValidationError):
+            self.Check.create({'employee_id': self.staff.id, 'check_type': 'special'})
+
+    def test_done_sets_date_and_follow_up_activity(self):
+        check = self.Check.create({
+            'employee_id': self.staff.id, 'scheduled_date': date(2026, 4, 1), 'result': 'abnormal'})
+        self.assertTrue(check.follow_up_required)
+        check.action_schedule()
+        check.action_done()
+        self.assertEqual(check.state, 'done')
+        self.assertEqual(check.check_date, date(2026, 4, 1))
+        activity = check.activity_ids
+        self.assertEqual(len(activity), 1)
+        self.assertEqual(activity.user_id, self.officer)
+        self.assertEqual(activity.activity_type_id,
+                         self.env.ref('linkdot_health_check.mail_activity_type_follow_up'))
+
+    def test_management_level_requires_follow_up(self):
+        check = self.Check.create({
+            'employee_id': self.staff.id, 'check_type': 'special', 'special_hazard': 'Lead',
+            'management_level': '1'})
+        self.assertFalse(check.follow_up_required)
+        check.management_level = '3'
+        self.assertTrue(check.follow_up_required)
+
+    def test_employee_sees_only_own_records(self):
+        own = self._done_check(self.staff, date(2025, 1, 1))
+        other = self._done_check(self.other, date(2025, 1, 1))
+        visible = self.Check.with_user(self.staff_user).search([])
+        self.assertIn(own, visible)
+        self.assertNotIn(other, visible)
+        with self.assertRaises(AccessError):
+            own.with_user(self.staff_user).write({'result': 'normal'})
+        with self.assertRaises(AccessError):
+            other.with_user(self.staff_user).read(['result'])
+
+    def test_officer_sees_all(self):
+        checks = self._done_check(self.staff, date(2025, 1, 1)) | self._done_check(self.other, date(2025, 1, 1))
+        self.assertEqual(self.Check.with_user(self.officer).search([('id', 'in', checks.ids)]), checks)
+
+    def test_done_record_retained(self):
+        check = self._done_check(self.staff, date(2025, 1, 1))
+        with self.assertRaises(UserError):
+            check.with_user(self.officer).unlink()
+        draft = self.Check.create({'employee_id': self.staff.id})
+        draft.with_user(self.officer).unlink()
+
+    @freeze_time('2026-10-22')
+    def test_cron_creates_due_checks_once(self):
+        self._done_check(self.staff, date(2021, 11, 1))   # 下次 2026-11-01，60 天內到期
+        self._done_check(self.other, date(2026, 5, 1))    # 下次 2027-05-01，還早
+        Employee = self.env['hr.employee']
+        Employee._cron_create_due_health_checks()
+        open_checks = self.Check.search([('state', '=', 'draft'), ('employee_id', 'in', (self.staff | self.other).ids)])
+        self.assertEqual(open_checks.employee_id, self.staff)
+        self.assertEqual(open_checks.scheduled_date, date(2026, 11, 1))
+        self.assertEqual(open_checks.activity_ids.user_id, self.officer)
+        Status = self.env['linkdot.health.check.employee.status']
+        self.assertEqual(Status.browse(self.staff.id).health_check_status, 'due_soon')
+        self.assertEqual(Status.browse(self.other.id).health_check_status, 'ok')
+        # 再跑一次不會重複建立
+        Employee._cron_create_due_health_checks()
+        self.assertEqual(self.Check.search_count([('state', '=', 'draft'), ('employee_id', '=', self.staff.id)]), 1)
+
+    def test_plan_wizard_reuses_open_check(self):
+        existing = self.Check.create({'employee_id': self.staff.id})
+        wizard = self.env['linkdot.health.check.plan.wizard'].with_user(self.officer).with_context(
+            active_model='hr.employee', active_ids=(self.staff | self.other).ids,
+        ).create({'scheduled_date': date(2026, 12, 1)})
+        self.assertEqual(wizard.employee_ids, self.staff | self.other)
+        action = wizard.action_schedule()
+        checks = self.Check.browse(action['domain'][0][2])
+        self.assertEqual(len(checks), 2)
+        self.assertIn(existing, checks)
+        self.assertEqual(set(checks.mapped('state')), {'scheduled'})
+
+
+    def test_officer_has_no_hr_rights(self):
+        self.assertFalse(self.officer.has_group('hr.group_hr_user'))
+        with self.assertRaises(AccessError):
+            self.staff.with_user(self.officer).read(['birthday'])
+
+    def test_officer_reads_status_with_birthday(self):
+        self._done_check(self.staff, date(2024, 3, 1))
+        Status = self.env['linkdot.health.check.employee.status'].with_user(self.officer)
+        [row] = Status.search_read(
+            [('id', '=', self.staff.id)],
+            ['name', 'birthday', 'department_id', 'last_health_check_date', 'next_health_check_date',
+             'health_check_status', 'health_check_count'])
+        self.assertEqual(row['birthday'], date(1990, 6, 1))
+        self.assertEqual(row['next_health_check_date'], date(2029, 3, 1))
+        self.assertEqual(row['health_check_count'], 1)
+        self.assertIn(self.staff.id, Status.search([('birthday', '!=', False)]).ids)
+        action = Status.browse(self.staff.id).action_open_health_checks()
+        self.assertEqual(action['domain'], [('employee_id', '=', self.staff.id)])
+
+    def test_staff_cannot_read_status(self):
+        with self.assertRaises(AccessError):
+            self.env['linkdot.health.check.employee.status'].with_user(self.staff_user).search_read([], ['birthday'])
+
+    def test_officer_completes_check_without_hr_rights(self):
+        check = self.Check.with_user(self.officer).create({
+            'employee_id': self.staff.id, 'scheduled_date': date(2026, 4, 1)})
+        check.action_done()
+        self.assertEqual(self.staff.next_health_check_date, date(2031, 4, 1))
+        # 列表、表單會讀員工名稱（Odoo 對非 HR 使用者改走 hr.employee.public）
+        spec = {'employee_id': {'fields': {'display_name': {}}}, 'provider_id': {'fields': {'display_name': {}}}}
+        [rec] = check.with_user(self.officer).web_read(spec)
+        self.assertEqual(rec['employee_id']['display_name'], 'Staff')
+        [rec] = check.with_user(self.staff_user).web_read(spec)
+        self.assertEqual(rec['employee_id']['display_name'], 'Staff')
+
+    def test_wizard_from_status_list(self):
+        wizard = self.env['linkdot.health.check.plan.wizard'].with_user(self.officer).with_context(
+            active_model='linkdot.health.check.employee.status', active_ids=[self.staff.id],
+        ).create({'scheduled_date': date(2026, 12, 1)})
+        self.assertEqual(wizard.employee_ids, self.staff)
+
+    def _activities(self, check, xmlid):
+        return check.activity_ids.filtered(lambda a: a.activity_type_id == self.env.ref(xmlid))
+
+    def test_reminders_go_to_every_officer_and_close_together(self):
+        officer2 = new_test_user(
+            self.env, login='hc_officer2', groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        check = self.Check.create({'employee_id': self.staff.id, 'scheduled_date': date(2026, 12, 1)})
+        check._schedule_reminders('linkdot_health_check.mail_activity_type_schedule', date(2026, 12, 1))
+        check._schedule_reminders('linkdot_health_check.mail_activity_type_schedule', date(2026, 12, 1))
+        reminders = self._activities(check, 'linkdot_health_check.mail_activity_type_schedule')
+        self.assertEqual(reminders.user_id, self.officer | officer2, "one reminder per officer, no duplicates")
+        check.with_user(officer2).action_schedule()
+        self.assertFalse(check.activity_ids, "handled by one officer closes everyone's reminder")
+
+    def test_follow_up_reminders_close_when_follow_up_done(self):
+        officer2 = new_test_user(
+            self.env, login='hc_officer2', groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        check = self.Check.create({'employee_id': self.staff.id, 'scheduled_date': date(2026, 4, 1)})
+        check.action_done()
+        self.assertFalse(check.activity_ids, "normal result needs no follow-up")
+        check.result = 'abnormal'
+        follow_ups = self._activities(check, 'linkdot_health_check.mail_activity_type_follow_up')
+        self.assertEqual(follow_ups.user_id, self.officer | officer2)
+        check.with_user(self.officer).follow_up_done = True
+        self.assertFalse(check.activity_ids)
+
+    def test_reminder_users(self):
+        company = self.env.company
+        managers = self.env.ref('linkdot_health_check.group_health_check_manager').users
+        self.assertEqual(self.Check._get_reminder_users(company), self.officer, "administrators are not reminded")
+        other_company = self.env['res.company'].create({'name': 'Other Co'})
+        new_test_user(self.env, login='hc_officer_other', company_id=other_company.id,
+                      company_ids=[(6, 0, other_company.ids)],
+                      groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        self.assertEqual(self.Check._get_reminder_users(company), self.officer, "other company's officer is not reminded")
+        self.officer.active = False
+        fallback = self.Check._get_reminder_users(company)
+        self.assertTrue(fallback)
+        self.assertLessEqual(fallback, managers, "without officers, administrators get the reminders")
+        self.assertNotIn(self.env.ref('base.user_root'), fallback)
+
+@tagged('post_install', '-at_install')
+class TestLinkdotHealthCheckProvider(TransactionCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.officer = new_test_user(
+            cls.env, login='hcp_officer', groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        cls.manager = new_test_user(
+            cls.env, login='hcp_manager', groups='base.group_user,linkdot_health_check.group_health_check_manager')
+        cls.staff_user = new_test_user(cls.env, login='hcp_staff', groups='base.group_user')
+        cls.Provider = cls.env['linkdot.health.check.provider']
+        cls.general_only = cls.Provider.create({'name': 'General Clinic', 'company_id': False})
+        cls.special = cls.Provider.create({'name': 'Special Hospital', 'offers_special': True})
+        cls.other_company = cls.env['res.company'].create({'name': 'Other Co'})
+        cls.foreign = cls.Provider.create({
+            'name': 'Foreign Hospital', 'offers_special': True, 'company_id': cls.other_company.id})
+        cls.employee = cls.env['hr.employee'].create({'name': 'Staff', 'user_id': cls.staff_user.id})
+
+    def test_only_manager_maintains_institutions(self):
+        self.Provider.with_user(self.manager).create({'name': 'New Clinic'})
+        with self.assertRaises(AccessError):
+            self.Provider.with_user(self.officer).create({'name': 'Officer Clinic'})
+        with self.assertRaises(AccessError):
+            self.general_only.with_user(self.officer).write({'name': 'Renamed'})
+        # 員工看自己的紀錄時要能讀到機構名稱
+        self.assertEqual(self.special.with_user(self.staff_user).name, 'Special Hospital')
+
+    def test_provider_domain_by_check_type(self):
+        Check = self.env['linkdot.health.check']
+        domain_expr = Check._fields['provider_id'].domain
+        company = self.env.company
+
+        def visible(check_type):
+            domain = safe_eval(domain_expr, {'check_type': check_type, 'company_id': company.id})
+            return self.Provider.search(domain) & (self.general_only | self.special | self.foreign)
+
+        self.assertEqual(visible('special'), self.special)
+        self.assertEqual(visible('general'), self.general_only | self.special)
+        self.assertEqual(visible('other'), self.general_only | self.special)
+        wizard_expr = self.env['linkdot.health.check.plan.wizard']._fields['provider_id'].domain
+        self.assertEqual(wizard_expr, domain_expr)
+
+    def test_institution_in_use_cannot_be_deleted(self):
+        self.env['linkdot.health.check'].create({'employee_id': self.employee.id, 'provider_id': self.special.id})
+        with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"), self.env.cr.savepoint():
+            self.special.unlink()
+        self.special.active = False
+        self.assertFalse(self.special.active)

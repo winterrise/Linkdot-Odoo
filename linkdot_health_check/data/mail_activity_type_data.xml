@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="mail_activity_type_schedule" model="mail.activity.type">
+        <field name="name">Schedule Health Check</field>
+        <field name="summary">Schedule health check</field>
+        <field name="icon">fa-calendar</field>
+        <field name="res_model">linkdot.health.check</field>
+        <field name="delay_count">0</field>
+    </record>
+
+    <record id="mail_activity_type_follow_up" model="mail.activity.type">
+        <field name="name">Health Check Follow-up</field>
+        <field name="summary">Follow up abnormal health check result</field>
+        <field name="icon">fa-stethoscope</field>
+        <field name="res_model">linkdot.health.check</field>
+        <field name="delay_count">0</field>
+    </record>
+</odoo>
