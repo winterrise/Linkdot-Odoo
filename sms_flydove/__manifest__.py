@@ -3,6 +3,7 @@
     'version': '18.0.1.0.0',
     'category': 'Hidden/Tools',
     'summary': 'Send Odoo SMS through Flydove (飛信資訊) SmartDove transactional SMS API instead of Odoo IAP',
+    'author': 'Kenny Kang',
     'license': 'LGPL-3',
     'depends': ['sms'],
     'external_dependencies': {'python': []},

@@ -21,4 +21,4 @@ API reference: <https://documenter.getpostman.com/view/32479177/2sA3XY7JPs>
 
 ## License
 
-LGPL-3
+LGPL-3 — © 2026 Kenny Kang
