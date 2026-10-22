@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="linkdot_health_check_report_upload_view_form" model="ir.ui.view">
+        <field name="name">linkdot.health.check.report.upload.form</field>
+        <field name="model">linkdot.health.check.report.upload</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="check_id" invisible="1"/>
+                <field name="is_officer" invisible="1"/>
+                <p class="text-muted">
+                    Upload the scanned paper report (PDF, JPG or PNG). It is stored only in the company's
+                    Google Shared Drive and renamed to the standard name, e.g. 0013_一般健康檢查_20261022.pdf.
+                </p>
+                <group>
+                    <group>
+                        <field name="employee_id" readonly="check_id or not is_officer"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="check_type" readonly="check_id"/>
+                        <field name="special_hazard" invisible="check_type != 'special'"
+                               required="check_type == 'special'" readonly="check_id"/>
+                    </group>
+                    <group>
+                        <field name="check_date"/>
+                        <field name="file" filename="filename" widget="binary" required="1"/>
+                        <field name="filename" invisible="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_upload" string="Upload" type="object" class="btn-primary"/>
+                    <button string="Discard" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_report_upload_action" model="ir.actions.act_window">
+        <field name="name">Upload Health Check Report</field>
+        <field name="res_model">linkdot.health.check.report.upload</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

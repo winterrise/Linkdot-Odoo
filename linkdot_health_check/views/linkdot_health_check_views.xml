@@ -22,7 +22,7 @@
                 <field name="currency_id" column_invisible="True"/>
                 <field name="company_id" optional="hide" groups="base.group_multi_company"/>
                 <field name="state" widget="badge"
-                       decoration-info="state == 'draft'" decoration-warning="state == 'scheduled'"
+                       decoration-info="state == 'draft'" decoration-warning="state in ('scheduled', 'reported')"
                        decoration-success="state == 'done'"/>
                 <field name="activity_ids" widget="list_activity" optional="show"/>
             </list>
@@ -35,10 +35,12 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="%(linkdot_health_check_report_upload_action)d" string="Upload Report" type="action"
+                            context="{'default_check_id': id}" invisible="not id or state == 'cancelled'"/>
                     <button name="action_schedule" string="Mark as Scheduled" type="object" class="btn-primary"
                             invisible="state != 'draft'" groups="linkdot_health_check.group_health_check_officer"/>
                     <button name="action_done" string="Mark as Done" type="object" class="btn-primary"
-                            invisible="state not in ('draft', 'scheduled')"
+                            invisible="state not in ('draft', 'scheduled', 'reported')"
                             groups="linkdot_health_check.group_health_check_officer"/>
                     <button name="action_cancel" string="Cancel" type="object"
                             invisible="state in ('done', 'cancelled')"
@@ -46,7 +48,7 @@
                     <button name="action_reset_to_draft" string="Reset to Draft" type="object"
                             invisible="state not in ('done', 'cancelled')"
                             groups="linkdot_health_check.group_health_check_manager"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,scheduled,done"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,scheduled,reported,done"/>
                 </header>
                 <sheet>
                     <widget name="web_ribbon" title="Follow-up" bg_color="text-bg-danger"
@@ -76,11 +78,21 @@
                                     <field name="result" widget="radio" options="{'horizontal': true}"/>
                                     <field name="management_level" invisible="check_type != 'special'"/>
                                 </group>
-                                <group>
-                                    <field name="report_attachment_ids" widget="many2many_binary"/>
-                                </group>
                             </group>
                             <field name="result_summary" placeholder="Summary of findings and physician recommendations..."/>
+                        </page>
+                        <page name="reports" string="Reports">
+                            <field name="report_ids" readonly="1">
+                                <list create="0" delete="0" no_open="1">
+                                    <field name="name"/>
+                                    <field name="create_uid" string="Uploaded By"/>
+                                    <field name="create_date" string="Uploaded On"/>
+                                    <field name="drive_url" column_invisible="True"/>
+                                    <button name="action_open_drive" type="object" string="Open in Google Drive"
+                                            icon="fa-external-link" invisible="not drive_url"
+                                            groups="linkdot_health_check.group_health_check_officer"/>
+                                </list>
+                            </field>
                         </page>
                         <page name="follow_up" string="Follow-up">
                             <group>
@@ -123,6 +135,7 @@
                 <separator/>
                 <filter name="to_schedule" string="To Schedule" domain="[('state', '=', 'draft')]"/>
                 <filter name="scheduled" string="Scheduled" domain="[('state', '=', 'scheduled')]"/>
+                <filter name="reported" string="Report Submitted" domain="[('state', '=', 'reported')]"/>
                 <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
                 <separator/>
                 <filter name="follow_up_open" string="Follow-up Pending"

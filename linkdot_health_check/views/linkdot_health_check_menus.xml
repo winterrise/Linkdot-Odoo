@@ -14,6 +14,8 @@
 
     <menuitem id="menu_health_check_my" name="My Health Checks" parent="menu_health_check_root"
               action="linkdot_health_check_action_my" sequence="5"/>
+    <menuitem id="menu_health_check_upload_report" name="Upload Report" parent="menu_health_check_root"
+              action="linkdot_health_check_report_upload_action" sequence="6"/>
 
     <menuitem id="menu_health_check_records" name="Health Checks" parent="menu_health_check_root"
               sequence="10" groups="group_health_check_officer"/>

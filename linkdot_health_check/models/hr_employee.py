@@ -89,7 +89,7 @@ class HrEmployee(models.Model):
         open_checks = self.env['linkdot.health.check'].search([
             ('employee_id', 'in', employees.ids),
             ('check_type', 'in', CYCLE_RESETTING_TYPES),
-            ('state', 'in', ('draft', 'scheduled')),
+            ('state', 'in', ('draft', 'scheduled', 'reported')),
         ])
         employees -= open_checks.employee_id
         if not employees:

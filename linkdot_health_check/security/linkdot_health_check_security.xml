@@ -47,6 +47,26 @@
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
 
+    <record id="linkdot_health_check_report_rule_own" model="ir.rule">
+        <field name="name">Health check reports: employees see their own</field>
+        <field name="model_id" ref="model_linkdot_health_check_report"/>
+        <field name="domain_force">[('check_id.employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="linkdot_health_check_report_rule_officer" model="ir.rule">
+        <field name="name">Health check reports: officers see all</field>
+        <field name="model_id" ref="model_linkdot_health_check_report"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_health_check_officer'))]"/>
+    </record>
+
+    <record id="linkdot_health_check_report_rule_company" model="ir.rule">
+        <field name="name">Health check reports: multi-company</field>
+        <field name="model_id" ref="model_linkdot_health_check_report"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
     <record id="linkdot_health_check_provider_rule_company" model="ir.rule">
         <field name="name">Medical institutions: multi-company</field>
         <field name="model_id" ref="model_linkdot_health_check_provider"/>

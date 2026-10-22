@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250428\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 05:05+0000\n"
-"PO-Revision-Date: 2026-10-22 05:05+0000\n"
+"POT-Creation-Date: 2026-10-22 05:52+0000\n"
+"PO-Revision-Date: 2026-10-22 05:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -15,6 +15,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid ""
+"%s has no employee number (Badge ID), so the report cannot be named. Please "
+"ask HR to fill it in."
+msgstr "%s 沒有員工編號（識別證號），無法為報告命名。請聯絡人事補上。"
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.hr_employee_view_form
@@ -81,6 +89,18 @@ msgid "Add a medical institution"
 msgstr "新增醫療機構"
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid ""
+"Add this address to the Shared Drive as <b>Content manager</b>, save, then "
+"test the connection."
+msgstr "請把這個地址加入共用雲端硬碟，角色設為<b>內容管理員</b>，儲存後再測試連線。"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_drive_account
+msgid "Add this address to the Shared Drive as Content manager."
+msgstr "請把這個地址加入共用雲端硬碟，角色設為內容管理員。"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__address
 msgid "Address"
 msgstr "地址"
@@ -118,6 +138,7 @@ msgstr "已取消"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__check_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__check_date
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
 msgid "Check Date"
 msgstr "檢查日期"
@@ -125,6 +146,7 @@ msgstr "檢查日期"
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__check_type
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__check_type
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__check_type
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
 msgid "Check Type"
 msgstr "檢查類別"
@@ -144,6 +166,7 @@ msgstr "健檢次數"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__company_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__company_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__company_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__company_id
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__paid_by__company
 msgid "Company"
 msgstr "公司"
@@ -167,9 +190,20 @@ msgid "Configuration"
 msgstr "設定"
 
 #. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/res_config_settings.py:0
+msgid "Connected to Google Drive folder “%s”."
+msgstr "已連線到雲端硬碟資料夾「%s」。"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__contact_name
 msgid "Contact Person"
 msgstr "聯絡人"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_drive_credentials
+msgid "Contents of the JSON key file of the Google Cloud service account."
+msgstr "Google Cloud 服務帳戶 JSON 金鑰檔的內容。"
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
@@ -198,6 +232,8 @@ msgstr "在一般健康檢查到期前幾天，自動建立「待安排」的健
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__create_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__create_uid
 msgid "Created by"
 msgstr "建立者"
 
@@ -205,6 +241,8 @@ msgstr "建立者"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__create_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__create_date
 msgid "Created on"
 msgstr "建立於"
 
@@ -228,6 +266,7 @@ msgstr "部門"
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_plan_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_report_upload_view_form
 msgid "Discard"
 msgstr "捨棄"
 
@@ -236,6 +275,8 @@ msgstr "捨棄"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__display_name
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__display_name
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__display_name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__display_name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__display_name
 msgid "Display Name"
 msgstr "顯示名稱"
 
@@ -259,6 +300,8 @@ msgstr "90 天內到期"
 #: model:ir.model,name:linkdot_health_check.model_hr_employee
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__employee_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__employee_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__employee_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__employee_id
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__paid_by__employee
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
@@ -295,6 +338,16 @@ msgstr "員工"
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_plan_wizard_view_form
 msgid "Employees..."
 msgstr "員工..."
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__name
+msgid "File Name"
+msgstr "檔名"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__filename
+msgid "Filename"
+msgstr "檔名"
 
 #. module: linkdot_health_check
 #: model:mail.activity.type,summary:linkdot_health_check.mail_activity_type_follow_up
@@ -356,6 +409,7 @@ msgstr "Font awesome 圖示，例如 fa-tasks"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__general
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__general
 msgid "General Health Check"
 msgstr "一般健康檢查"
 
@@ -364,6 +418,24 @@ msgstr "一般健康檢查"
 #: code:addons/linkdot_health_check/models/hr_employee.py:0
 msgid "General health check due for %s."
 msgstr "%s 的一般健康檢查即將到期。"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__drive_file_id
+msgid "Google Drive File ID"
+msgstr "雲端硬碟檔案 ID"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__drive_url
+msgid "Google Drive Link"
+msgstr "雲端硬碟連結"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid ""
+"Google Drive is not set up for health check reports yet. Please ask a Health"
+" Check Administrator. (%s)"
+msgstr "健檢報告的雲端硬碟尚未設定，請聯絡健康檢查管理者。（%s）"
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_employee_status_view_search
@@ -384,6 +456,12 @@ msgid ""
 msgstr "需要做特殊健康檢查的特別危害健康作業，例如噪音、鉛、夜間工作。"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__check_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__check_id
+msgid "Health Check"
+msgstr "健康檢查"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_hr_employee__health_check_count
 msgid "Health Check Count"
 msgstr "健檢次數"
@@ -397,6 +475,11 @@ msgstr "健檢異常追蹤"
 #: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_provider
 msgid "Health Check Medical Institution"
 msgstr "健檢醫療機構"
+
+#. module: linkdot_health_check
+#: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_report
+msgid "Health Check Report"
+msgstr "健檢報告"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__health_check_status
@@ -424,6 +507,14 @@ msgid "Health Management Level"
 msgstr "健康管理分級"
 
 #. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid ""
+"Health check reports must be retained and can only be deleted by a Health "
+"Check Administrator."
+msgstr "健檢報告依法須保存，只有健康檢查管理者可以刪除。"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__management_level
 msgid ""
 "Health management level of a special health check (Labor Health Protection "
@@ -435,6 +526,8 @@ msgstr "特殊健康檢查的健康管理分級（勞工健康保護規則第 21
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__id
 msgid "ID"
 msgstr "ID"
 
@@ -470,6 +563,11 @@ msgid "Is Follower"
 msgstr "是關注者"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__is_officer
+msgid "Is Officer"
+msgstr "是健康管理人員"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__job_title
 msgid "Job Title"
 msgstr "職稱"
@@ -484,6 +582,8 @@ msgstr "上次一般健康檢查"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__write_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__write_uid
 msgid "Last Updated by"
 msgstr "最後更新者"
 
@@ -491,6 +591,8 @@ msgstr "最後更新者"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__write_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__write_date
 msgid "Last Updated on"
 msgstr "最後更新於"
 
@@ -657,8 +759,14 @@ msgid ""
 msgstr "健康管理人員安排健檢時，只能從這份清單中選擇醫療機構。"
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Open in Google Drive"
+msgstr "在雲端硬碟開啟"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__other
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__other
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__other
 msgid "Other"
 msgstr "其他"
 
@@ -674,15 +782,40 @@ msgid "Paid By"
 msgstr "付費方"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_drive_folder
+msgid ""
+"Paste the Shared Drive (or a folder inside it) link from the browser, or its"
+" ID. Reports go into a sub-folder per year."
+msgstr "貼上共用雲端硬碟（或其中某個資料夾）的瀏覽器網址或 ID。報告會依年度放在子資料夾。"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__phone
 msgid "Phone"
 msgstr "電話"
 
 #. module: linkdot_health_check
 #. odoo-python
+#: code:addons/linkdot_health_check/wizard/linkdot_health_check_report_upload.py:0
+msgid "Please choose the scanned report file."
+msgstr "請選擇報告的掃描檔。"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "Please set the check date first."
+msgstr "請先填寫檢查日期。"
+
+#. module: linkdot_health_check
+#. odoo-python
 #: code:addons/linkdot_health_check/models/linkdot_health_check.py:0
 msgid "Please set the scheduled date of %s first."
 msgstr "請先設定「%s」的預約日期。"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "Please upload a PDF, JPG or PNG file."
+msgstr "請上傳 PDF、JPG 或 PNG 檔。"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_pre_employment
@@ -692,6 +825,7 @@ msgstr "新進體格檢查"
 #. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__pre_employment
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__pre_employment
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__pre_employment
 msgid "Pre-employment Physical Examination"
 msgstr "新進人員體格檢查"
 
@@ -716,7 +850,30 @@ msgid "Reminder Lead Time"
 msgstr "提前提醒"
 
 #. module: linkdot_health_check
-#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__report_attachment_ids
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__report_count
+msgid "Report Count"
+msgstr "報告數"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "Report Storage (Google Shared Drive)"
+msgstr "報告存放（Google 共用雲端硬碟）"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__state__reported
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_search
+msgid "Report Submitted"
+msgstr "報告待審閱"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/wizard/linkdot_health_check_report_upload.py:0
+msgid "Report uploaded to Google Drive as %s."
+msgstr "報告已上傳到雲端硬碟，檔名為 %s。"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__report_ids
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
 msgid "Reports"
 msgstr "健檢報告"
 
@@ -747,9 +904,18 @@ msgid "SMS Delivery error"
 msgstr "簡訊傳送錯誤"
 
 #. module: linkdot_health_check
-#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__report_attachment_ids
-msgid "Scanned or electronic health check reports."
-msgstr "健檢報告的掃描檔或電子檔。"
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__file
+msgid "Scanned Report"
+msgstr "報告掃描檔"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid ""
+"Scanned reports are stored only in this Shared Drive folder, in a sub-folder"
+" per year, named EmployeeNumber_CheckType_Date (e.g. "
+"0013_一般健康檢查_20261022.pdf)."
+msgstr ""
+"報告掃描檔只存放在這個共用雲端硬碟資料夾，依年度分子資料夾，檔名為「員工編號_檢查類別_檢查日期」（例：0013_一般健康檢查_20261022.pdf）。"
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_plan_wizard_view_form
@@ -798,14 +964,36 @@ msgid "Sequence"
 msgstr "排序"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_res_config_settings__health_check_drive_account
+msgid "Service Account"
+msgstr "服務帳戶"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_res_config_settings__health_check_drive_credentials
+msgid "Service Account Key"
+msgstr "服務帳戶金鑰"
+
+#. module: linkdot_health_check
 #: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_settings_action
 #: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_settings
 msgid "Settings"
 msgstr "設定"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_res_config_settings__health_check_drive_folder
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "Shared Drive Folder"
+msgstr "共用雲端硬碟資料夾"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report__file_size
+msgid "Size (bytes)"
+msgstr "大小（位元組）"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__special_hazard
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__special_hazard
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_report_upload__special_hazard
 msgid "Special Hazardous Work"
 msgstr "特別危害健康作業"
 
@@ -813,6 +1001,7 @@ msgstr "特別危害健康作業"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__special
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_report_upload__check_type__special
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_search
 msgid "Special Health Check"
 msgstr "特殊健康檢查"
@@ -840,6 +1029,29 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
 msgid "Summary of findings and physician recommendations..."
 msgstr "檢查發現與醫師建議摘要..."
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "Test Connection"
+msgstr "測試連線"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "The file is larger than %s MB."
+msgstr "檔案超過 %s MB。"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/res_config_settings.py:0
+msgid ""
+"The service account cannot open this folder. Check that the folder link is right and that %(account)s is a member of the Shared Drive.\n"
+"\n"
+"%(error)s"
+msgstr ""
+"服務帳戶打不開這個資料夾。請確認資料夾網址正確，且 %(account)s 已加入該共用雲端硬碟。\n"
+"\n"
+"%(error)s"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__state__draft
@@ -870,6 +1082,48 @@ msgid "Up to Date"
 msgstr "未到期"
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_report_upload_view_form
+msgid "Upload"
+msgstr "上傳"
+
+#. module: linkdot_health_check
+#: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_report_upload_action
+#: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_report_upload
+msgid "Upload Health Check Report"
+msgstr "上傳健檢報告"
+
+#. module: linkdot_health_check
+#: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_upload_report
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Upload Report"
+msgstr "上傳健檢報告"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_report_upload_view_form
+msgid ""
+"Upload the scanned paper report (PDF, JPG or PNG). It is stored only in the company's\n"
+"                    Google Shared Drive and renamed to the standard name, e.g. 0013_一般健康檢查_20261022.pdf."
+msgstr ""
+"請上傳紙本報告的掃描檔（PDF、JPG 或 PNG）。檔案只會存放在公司的 Google 共用雲端硬碟，並自動改為標準檔名，例如 "
+"0013_一般健康檢查_20261022.pdf。"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Uploaded By"
+msgstr "上傳者"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
+msgid "Uploaded On"
+msgstr "上傳時間"
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/linkdot_health_check_report.py:0
+msgid "Uploading to Google Drive failed: %s"
+msgstr "上傳到雲端硬碟失敗：%s"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__website_message_ids
 msgid "Website Messages"
 msgstr "網站訊息"
@@ -880,6 +1134,12 @@ msgid "Website communication history"
 msgstr "網站溝通紀錄"
 
 #. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/wizard/linkdot_health_check_report_upload.py:0
+msgid "You can only upload your own health check reports."
+msgstr "你只能上傳自己的健檢報告。"
+
+#. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
 msgid "days"
 msgstr "天"
@@ -888,3 +1148,19 @@ msgstr "天"
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
 msgid "e.g. National Taiwan University Hospital"
 msgstr "例如：臺大醫院"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "https://drive.google.com/drive/folders/..."
+msgstr "https://drive.google.com/drive/folders/..."
+
+#. module: linkdot_health_check
+#. odoo-python
+#: code:addons/linkdot_health_check/models/res_config_settings.py:0
+msgid "the service account"
+msgstr "服務帳戶"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
+msgid "{\"type\": \"service_account\", ...}"
+msgstr "{\"type\": \"service_account\", ...}"
