@@ -9,12 +9,8 @@
                 <app data-string="Health Checks" string="Health Checks" name="linkdot_health_check"
                      groups="linkdot_health_check.group_health_check_manager">
                     <block title="Health Checks" name="health_check_setting_container">
-                        <setting id="health_check_officer" string="Health Check Officer"
-                                 help="Receives reminders for due health checks and abnormal-result follow-ups">
-                            <field name="health_check_officer_id"/>
-                        </setting>
                         <setting id="health_check_reminder_days" string="Reminder Lead Time"
-                                 help="Create a 'To Schedule' general health check this many days before it is due">
+                                 help="Create a 'To Schedule' general health check this many days before it is due. Reminders go to everyone with the Health Checks 'Officer' access right (to Administrators only if there is no Officer).">
                             <field name="health_check_reminder_days" class="oe_inline"/> days
                         </setting>
                     </block>

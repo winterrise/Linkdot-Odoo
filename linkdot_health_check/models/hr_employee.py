@@ -4,9 +4,8 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 
-from .linkdot_health_check import CYCLE_RESETTING_TYPES
+from .linkdot_health_check import CYCLE_RESETTING_TYPES, OFFICER_GROUP, SCHEDULE_ACTIVITY
 
-OFFICER_GROUP = 'linkdot_health_check.group_health_check_officer'
 DEFAULT_REMINDER_DAYS = 60
 
 
@@ -100,14 +99,7 @@ class HrEmployee(models.Model):
             'check_type': 'general',
             'scheduled_date': employee.next_health_check_date,
         } for employee in employees])
-        activity_type = self.env.ref('linkdot_health_check.mail_activity_type_schedule')
         for check in checks:
-            officer = check.company_id.health_check_officer_id
-            if not officer:
-                continue
-            check.activity_schedule(
-                activity_type_id=activity_type.id,
-                date_deadline=max(check.scheduled_date or today, today),
-                note=_("General health check due for %s.", check.employee_id.name),
-                user_id=officer.id,
-            )
+            check._schedule_reminders(
+                SCHEDULE_ACTIVITY, max(check.scheduled_date or today, today),
+                note=_("General health check due for %s.", check.employee_id.name))

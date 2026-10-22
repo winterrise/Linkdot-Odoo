@@ -1,6 +1,6 @@
 {
     'name': 'Employee Health Checks',
-    'version': '18.0.1.2.0',
+    'version': '18.0.1.3.0',
     'category': 'Human Resources/Employees',
     'summary': 'Track employee health checks (pre-employment, general, special) per the Taiwan Labor Health Protection Rules',
     'author': 'Linkdot',
