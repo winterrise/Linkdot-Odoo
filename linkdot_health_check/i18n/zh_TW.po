@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250428\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 02:13+0000\n"
-"PO-Revision-Date: 2026-10-22 02:13+0000\n"
+"POT-Creation-Date: 2026-10-22 04:38+0000\n"
+"PO-Revision-Date: 2026-10-22 04:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -28,6 +28,11 @@ msgid "A completed health check needs a check date."
 msgstr "已完成的健康檢查必須填寫檢查日期。"
 
 #. module: linkdot_health_check
+#: model:ir.model.constraint,message:linkdot_health_check.constraint_linkdot_health_check_provider_name_company_uniq
+msgid "A medical institution with this name already exists."
+msgstr "已經有同名的醫療機構。"
+
+#. module: linkdot_health_check
 #. odoo-python
 #: code:addons/linkdot_health_check/models/linkdot_health_check.py:0
 msgid "A special health check must state its hazardous work item."
@@ -43,6 +48,11 @@ msgstr "異常"
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__message_needaction
 msgid "Action Needed"
 msgstr "需要採取行動"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__active
+msgid "Active"
+msgstr "啟用"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__activity_ids
@@ -65,6 +75,16 @@ msgid "Activity Type Icon"
 msgstr "活動類型圖示"
 
 #. module: linkdot_health_check
+#: model_terms:ir.actions.act_window,help:linkdot_health_check.linkdot_health_check_provider_action
+msgid "Add a medical institution"
+msgstr "新增醫療機構"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__address
+msgid "Address"
+msgstr "地址"
+
+#. module: linkdot_health_check
 #: model:res.groups,name:linkdot_health_check.group_health_check_manager
 msgid "Administrator"
 msgstr "管理者"
@@ -73,6 +93,12 @@ msgstr "管理者"
 #: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_all
 msgid "All Health Checks"
 msgstr "所有健檢紀錄"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_search
+msgid "Archived"
+msgstr "已封存"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__message_attachment_count
@@ -103,6 +129,11 @@ msgid "Check Type"
 msgstr "檢查類別"
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+msgid "Check Types Offered"
+msgstr "可做的檢查類別"
+
+#. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.hr_employee_view_list_health_check
 msgid "Checks"
 msgstr "健檢次數"
@@ -114,6 +145,8 @@ msgstr "公司"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__company_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__company_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__company_id
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__paid_by__company
 msgid "Company"
 msgstr "公司"
@@ -137,6 +170,16 @@ msgid "Configuration"
 msgstr "設定"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__contact_name
+msgid "Contact Person"
+msgstr "聯絡人"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+msgid "Contract, prices, booking instructions..."
+msgstr "合約、價格、預約方式..."
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__cost
 msgid "Cost"
 msgstr "費用"
@@ -155,12 +198,14 @@ msgstr "在一般健康檢查到期前幾天，自動建立「待安排」的健
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_uid
 msgid "Created by"
 msgstr "建立者"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_date
 msgid "Created on"
 msgstr "建立於"
 
@@ -184,6 +229,7 @@ msgstr "捨棄"
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__display_name
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__display_name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__display_name
 msgid "Display Name"
 msgstr "顯示名稱"
 
@@ -294,6 +340,7 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font awesome 圖示，例如 fa-tasks"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__general
 msgid "General Health Check"
@@ -332,6 +379,11 @@ msgstr "健檢次數"
 #: model:mail.activity.type,name:linkdot_health_check.mail_activity_type_follow_up
 msgid "Health Check Follow-up"
 msgstr "健檢異常追蹤"
+
+#. module: linkdot_health_check
+#: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_provider
+msgid "Health Check Medical Institution"
+msgstr "健檢醫療機構"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_res_company__health_check_officer_id
@@ -375,6 +427,7 @@ msgstr "特殊健康檢查的健康管理分級（勞工健康保護規則第 21
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__id
 msgid "ID"
 msgstr "ID"
 
@@ -417,14 +470,21 @@ msgstr "上次一般健康檢查"
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_uid
 msgid "Last Updated by"
 msgstr "最後更新者"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_date
 msgid "Last Updated on"
 msgstr "最後更新於"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check_provider__company_id
+msgid "Leave empty to share this institution with all companies."
+msgstr "留空表示所有公司共用此機構。"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__management_level__1
@@ -463,6 +523,19 @@ msgid "Medical Institution"
 msgstr "醫療機構"
 
 #. module: linkdot_health_check
+#: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_provider_action
+#: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_provider
+msgid "Medical Institutions"
+msgstr "醫療機構"
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__provider_id
+msgid ""
+"Medical institution that performs the check. Administrators maintain the "
+"list in Health Checks > Configuration > Medical Institutions."
+msgstr "執行檢查的醫療機構。清單由管理者在「健康檢查 > 設定 > 醫療機構」維護。"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__message_has_error
 msgid "Message Delivery error"
 msgstr "訊息傳送錯誤"
@@ -491,6 +564,7 @@ msgstr "我的健康檢查"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__name
 msgid "Name"
 msgstr "名稱"
 
@@ -532,6 +606,7 @@ msgstr "正常"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__note
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__note
 msgid "Notes"
 msgstr "備註"
 
@@ -561,6 +636,13 @@ msgid "Officer: Manage all health checks"
 msgstr "健康管理人員：管理所有健檢紀錄"
 
 #. module: linkdot_health_check
+#: model_terms:ir.actions.act_window,help:linkdot_health_check.linkdot_health_check_provider_action
+msgid ""
+"Officers can only pick institutions from this list when scheduling health "
+"checks."
+msgstr "健康管理人員安排健檢時，只能從這份清單中選擇醫療機構。"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__other
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__other
 msgid "Other"
@@ -578,21 +660,26 @@ msgid "Paid By"
 msgstr "付費方"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__phone
+msgid "Phone"
+msgstr "電話"
+
+#. module: linkdot_health_check
 #. odoo-python
 #: code:addons/linkdot_health_check/models/linkdot_health_check.py:0
 msgid "Please set the scheduled date of %s first."
 msgstr "請先設定「%s」的預約日期。"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_pre_employment
+msgid "Pre-employment Physical"
+msgstr "新進體格檢查"
+
+#. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__pre_employment
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__pre_employment
 msgid "Pre-employment Physical Examination"
 msgstr "新進人員體格檢查"
-
-#. module: linkdot_health_check
-#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__rating_ids
-msgid "Ratings"
-msgstr "評分"
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
@@ -611,11 +698,6 @@ msgstr "接收健檢到期與異常追蹤的提醒"
 msgid ""
 "Receives reminders for due health checks and abnormal-result follow-ups."
 msgstr "接收健檢到期與異常追蹤的提醒。"
-
-#. module: linkdot_health_check
-#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__provider_id
-msgid "Recognized medical institution that performs the check."
-msgstr "執行檢查的認可醫療機構。"
 
 #. module: linkdot_health_check
 #: model_terms:ir.actions.act_window,help:linkdot_health_check.linkdot_health_check_action
@@ -709,6 +791,11 @@ msgid "Scheduled Health Checks"
 msgstr "已安排的健康檢查"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__sequence
+msgid "Sequence"
+msgstr "排序"
+
+#. module: linkdot_health_check
 #: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_settings_action
 #: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_settings
 msgid "Settings"
@@ -721,8 +808,10 @@ msgid "Special Hazardous Work"
 msgstr "特別危害健康作業"
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__special
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_search
 msgid "Special Health Check"
 msgstr "特殊健康檢查"
 
@@ -792,3 +881,8 @@ msgstr "網站溝通紀錄"
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
 msgid "days"
 msgstr "天"
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+msgid "e.g. National Taiwan University Hospital"
+msgstr "例如：臺大醫院"

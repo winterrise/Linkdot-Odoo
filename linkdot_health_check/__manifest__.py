@@ -1,6 +1,6 @@
 {
     'name': 'Employee Health Checks',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Human Resources/Employees',
     'summary': 'Track employee health checks (pre-employment, general, special) per the Taiwan Labor Health Protection Rules',
     'author': 'Linkdot',
@@ -11,6 +11,7 @@
         'security/ir.model.access.csv',
         'data/mail_activity_type_data.xml',
         'data/ir_cron_data.xml',
+        'views/linkdot_health_check_provider_views.xml',
         'views/linkdot_health_check_views.xml',
         'views/hr_employee_views.xml',
         'views/res_config_settings_views.xml',

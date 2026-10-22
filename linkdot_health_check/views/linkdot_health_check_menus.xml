@@ -31,4 +31,6 @@
               sequence="90" groups="group_health_check_manager"/>
     <menuitem id="menu_health_check_settings" name="Settings" parent="menu_health_check_config"
               action="linkdot_health_check_settings_action" sequence="10" groups="base.group_system"/>
+    <menuitem id="menu_health_check_provider" name="Medical Institutions" parent="menu_health_check_config"
+              action="linkdot_health_check_provider_action" sequence="20"/>
 </odoo>
