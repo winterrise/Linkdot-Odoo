@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.linkdot_health_check</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Health Checks" string="Health Checks" name="linkdot_health_check"
+                     groups="linkdot_health_check.group_health_check_manager">
+                    <block title="Health Checks" name="health_check_setting_container">
+                        <setting id="health_check_officer" string="Health Check Officer"
+                                 help="Receives reminders for due health checks and abnormal-result follow-ups">
+                            <field name="health_check_officer_id"/>
+                        </setting>
+                        <setting id="health_check_reminder_days" string="Reminder Lead Time"
+                                 help="Create a 'To Schedule' general health check this many days before it is due">
+                            <field name="health_check_reminder_days" class="oe_inline"/> days
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

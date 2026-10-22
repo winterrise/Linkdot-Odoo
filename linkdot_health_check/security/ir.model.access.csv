@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_linkdot_health_check_user,linkdot.health.check.user,model_linkdot_health_check,base.group_user,1,0,0,0
+access_linkdot_health_check_officer,linkdot.health.check.officer,model_linkdot_health_check,group_health_check_officer,1,1,1,1
+access_linkdot_health_check_plan_wizard_officer,linkdot.health.check.plan.wizard.officer,model_linkdot_health_check_plan_wizard,group_health_check_officer,1,1,1,1

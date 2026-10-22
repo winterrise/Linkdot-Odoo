@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.linkdot_health_check</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <!-- anchor: <div name="button_box"> in hr/views/hr_employee_views.xml -->
+            <div name="button_box" position="inside">
+                <button name="action_open_health_checks" type="object" class="oe_stat_button"
+                        icon="fa-stethoscope" groups="linkdot_health_check.group_health_check_officer">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="health_check_count"/></span>
+                        <span class="o_stat_text">Health Checks</span>
+                    </div>
+                </button>
+            </div>
+        </field>
+    </record>
+
+    <!-- 員工健檢狀況總覽：依下次應檢日找出逾期 / 即將到期 / 從未健檢的人 -->
+    <record id="hr_employee_view_list_health_check" model="ir.ui.view">
+        <field name="name">hr.employee.list.health_check</field>
+        <field name="model">hr.employee</field>
+        <field name="priority">100</field>
+        <field name="groups_id" eval="[(4, ref('group_health_check_officer'))]"/>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="job_title" optional="show"/>
+                <field name="birthday" optional="show"/>
+                <field name="last_health_check_date"/>
+                <field name="next_health_check_date"/>
+                <field name="health_check_status" widget="badge"
+                       decoration-success="health_check_status == 'ok'"
+                       decoration-warning="health_check_status in ('due_soon', 'no_record')"
+                       decoration-danger="health_check_status == 'overdue'"/>
+                <field name="health_check_count" string="Checks" optional="show"/>
+                <field name="company_id" optional="hide" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_employee_view_search_health_check" model="ir.ui.view">
+        <field name="name">hr.employee.search.health_check</field>
+        <field name="model">hr.employee</field>
+        <field name="priority">100</field>
+        <field name="groups_id" eval="[(4, ref('group_health_check_officer'))]"/>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="department_id"/>
+                <filter name="overdue" string="Overdue"
+                        domain="[('next_health_check_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="due_within_90" string="Due within 90 Days"
+                        domain="[('next_health_check_date', '&lt;=', (context_today() + relativedelta(days=90)).strftime('%Y-%m-%d'))]"/>
+                <filter name="no_record" string="No Record" domain="[('next_health_check_date', '=', False)]"/>
+                <separator/>
+                <filter name="missing_birthday" string="Missing Birthday" domain="[('birthday', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_employee_action_health_check_status" model="ir.actions.act_window">
+        <field name="name">Employee Health Check Status</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('hr_employee_view_list_health_check')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('hr.view_employee_form')})]"/>
+        <field name="search_view_id" ref="hr_employee_view_search_health_check"/>
+    </record>
+</odoo>

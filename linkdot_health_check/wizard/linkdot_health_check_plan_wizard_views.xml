@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="linkdot_health_check_plan_wizard_view_form" model="ir.ui.view">
+        <field name="name">linkdot.health.check.plan.wizard.form</field>
+        <field name="model">linkdot.health.check.plan.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="check_type"/>
+                        <field name="special_hazard" invisible="check_type != 'special'"
+                               required="check_type == 'special'"/>
+                    </group>
+                    <group>
+                        <field name="scheduled_date"/>
+                        <field name="provider_id"/>
+                    </group>
+                </group>
+                <field name="employee_ids" widget="many2many_tags_avatar" placeholder="Employees..."/>
+                <footer>
+                    <button name="action_schedule" string="Schedule" type="object" class="btn-primary"/>
+                    <button string="Discard" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="linkdot_health_check_plan_wizard_action" model="ir.actions.act_window">
+        <field name="name">Schedule Health Checks</field>
+        <field name="res_model">linkdot.health.check.plan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('group_health_check_officer'))]"/>
+    </record>
+</odoo>
