@@ -7,3 +7,5 @@ Linkdot 的 Odoo 18 通用模組（不綁特定客戶；客戶特有的值放各
 |---|---|
 | `linkdot_health_check` | 員工健康檢查（勞工健康保護規則：體格檢查、一般／特殊健檢、異常追蹤） |
 | `linkdot_auth_oauth_email` | OAuth（Google）首次登入以已驗證 Email 綁定既有帳號；登入頁只顯示 OAuth |
+| `sms_flydove` | Odoo 簡訊改走飛信資訊 Flydove（SmartDove）而非 Odoo IAP；說明見 `sms_flydove/README.md` |
+| `mass_mailing_sms_flydove` | 簡訊行銷「測試」鈕也走 Flydove（auto_install 橋接） |
