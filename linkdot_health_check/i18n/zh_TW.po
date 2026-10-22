@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250428\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 04:57+0000\n"
-"PO-Revision-Date: 2026-10-22 04:57+0000\n"
+"POT-Creation-Date: 2026-10-22 05:05+0000\n"
+"PO-Revision-Date: 2026-10-22 05:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -15,14 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: linkdot_health_check
-#. odoo-python
-#: code:addons/linkdot_health_check/models/res_company.py:0
-msgid ""
-"%s cannot be the health check officer: give them the Health Checks 'Officer'"
-" or 'Administrator' access right first."
-msgstr "%s 不能擔任健康管理負責人：請先在使用者的存取權限把「健康檢查」設為「健康管理人員」或「管理者」。"
 
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.hr_employee_view_form
@@ -148,11 +140,6 @@ msgid "Checks"
 msgstr "健檢次數"
 
 #. module: linkdot_health_check
-#: model:ir.model,name:linkdot_health_check.model_res_company
-msgid "Companies"
-msgstr "公司"
-
-#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__company_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__company_id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__company_id
@@ -202,8 +189,10 @@ msgstr "費用與備註"
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
 msgid ""
-"Create a 'To Schedule' general health check this many days before it is due"
-msgstr "在一般健康檢查到期前幾天，自動建立「待安排」的健檢紀錄"
+"Create a 'To Schedule' general health check this many days before it is due."
+" Reminders go to everyone with the Health Checks 'Officer' access right (to "
+"Administrators only if there is no Officer)."
+msgstr "在一般健康檢查到期前幾天，自動建立「待安排」的健檢紀錄。提醒會發給所有具「健康管理人員」權限的人（沒有健康管理人員時才發給管理者）。"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_uid
@@ -408,13 +397,6 @@ msgstr "健檢異常追蹤"
 #: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_provider
 msgid "Health Check Medical Institution"
 msgstr "健檢醫療機構"
-
-#. module: linkdot_health_check
-#: model:ir.model.fields,field_description:linkdot_health_check.field_res_company__health_check_officer_id
-#: model:ir.model.fields,field_description:linkdot_health_check.field_res_config_settings__health_check_officer_id
-#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
-msgid "Health Check Officer"
-msgstr "健康管理負責人"
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_employee_status__health_check_status
@@ -717,20 +699,6 @@ msgstr "新進人員體格檢查"
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_view_form
 msgid "Re-examination, work adjustment, health education..."
 msgstr "複檢、調整工作、衛生教育..."
-
-#. module: linkdot_health_check
-#: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
-msgid ""
-"Receives reminders for due health checks and abnormal-result follow-ups"
-msgstr "接收健檢到期與異常追蹤的提醒"
-
-#. module: linkdot_health_check
-#: model:ir.model.fields,help:linkdot_health_check.field_res_company__health_check_officer_id
-#: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_officer_id
-msgid ""
-"Receives reminders for due health checks and abnormal-result follow-ups. "
-"Must be a Health Check Officer, otherwise the reminders cannot be opened."
-msgstr "接收健檢到期與異常追蹤的提醒。必須是健康管理人員，否則收到提醒也打不開紀錄。"
 
 #. module: linkdot_health_check
 #: model_terms:ir.actions.act_window,help:linkdot_health_check.linkdot_health_check_action

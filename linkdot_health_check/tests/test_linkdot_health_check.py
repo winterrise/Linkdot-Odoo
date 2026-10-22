@@ -62,7 +62,6 @@ class TestLinkdotHealthCheck(TransactionCase):
             self.Check.create({'employee_id': self.staff.id, 'check_type': 'special'})
 
     def test_done_sets_date_and_follow_up_activity(self):
-        self.env.company.health_check_officer_id = self.officer
         check = self.Check.create({
             'employee_id': self.staff.id, 'scheduled_date': date(2026, 4, 1), 'result': 'abnormal'})
         self.assertTrue(check.follow_up_required)
@@ -108,7 +107,6 @@ class TestLinkdotHealthCheck(TransactionCase):
 
     @freeze_time('2026-10-22')
     def test_cron_creates_due_checks_once(self):
-        self.env.company.health_check_officer_id = self.officer
         self._done_check(self.staff, date(2021, 11, 1))   # 下次 2026-11-01，60 天內到期
         self._done_check(self.other, date(2026, 5, 1))    # 下次 2027-05-01，還早
         Employee = self.env['hr.employee']
@@ -178,10 +176,46 @@ class TestLinkdotHealthCheck(TransactionCase):
         ).create({'scheduled_date': date(2026, 12, 1)})
         self.assertEqual(wizard.employee_ids, self.staff)
 
-    def test_officer_setting_requires_officer_group(self):
-        with self.assertRaises(ValidationError):
-            self.env.company.health_check_officer_id = self.staff_user
-        self.env.company.health_check_officer_id = self.officer
+    def _activities(self, check, xmlid):
+        return check.activity_ids.filtered(lambda a: a.activity_type_id == self.env.ref(xmlid))
+
+    def test_reminders_go_to_every_officer_and_close_together(self):
+        officer2 = new_test_user(
+            self.env, login='hc_officer2', groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        check = self.Check.create({'employee_id': self.staff.id, 'scheduled_date': date(2026, 12, 1)})
+        check._schedule_reminders('linkdot_health_check.mail_activity_type_schedule', date(2026, 12, 1))
+        check._schedule_reminders('linkdot_health_check.mail_activity_type_schedule', date(2026, 12, 1))
+        reminders = self._activities(check, 'linkdot_health_check.mail_activity_type_schedule')
+        self.assertEqual(reminders.user_id, self.officer | officer2, "one reminder per officer, no duplicates")
+        check.with_user(officer2).action_schedule()
+        self.assertFalse(check.activity_ids, "handled by one officer closes everyone's reminder")
+
+    def test_follow_up_reminders_close_when_follow_up_done(self):
+        officer2 = new_test_user(
+            self.env, login='hc_officer2', groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        check = self.Check.create({'employee_id': self.staff.id, 'scheduled_date': date(2026, 4, 1)})
+        check.action_done()
+        self.assertFalse(check.activity_ids, "normal result needs no follow-up")
+        check.result = 'abnormal'
+        follow_ups = self._activities(check, 'linkdot_health_check.mail_activity_type_follow_up')
+        self.assertEqual(follow_ups.user_id, self.officer | officer2)
+        check.with_user(self.officer).follow_up_done = True
+        self.assertFalse(check.activity_ids)
+
+    def test_reminder_users(self):
+        company = self.env.company
+        managers = self.env.ref('linkdot_health_check.group_health_check_manager').users
+        self.assertEqual(self.Check._get_reminder_users(company), self.officer, "administrators are not reminded")
+        other_company = self.env['res.company'].create({'name': 'Other Co'})
+        new_test_user(self.env, login='hc_officer_other', company_id=other_company.id,
+                      company_ids=[(6, 0, other_company.ids)],
+                      groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        self.assertEqual(self.Check._get_reminder_users(company), self.officer, "other company's officer is not reminded")
+        self.officer.active = False
+        fallback = self.Check._get_reminder_users(company)
+        self.assertTrue(fallback)
+        self.assertLessEqual(fallback, managers, "without officers, administrators get the reminders")
+        self.assertNotIn(self.env.ref('base.user_root'), fallback)
 
 @tagged('post_install', '-at_install')
 class TestLinkdotHealthCheckProvider(TransactionCase):
