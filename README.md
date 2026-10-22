@@ -1,6 +1,7 @@
 # Linkdot-Odoo
 
 Linkdot 的 Odoo 18 通用模組（不綁特定客戶；客戶特有的值放各自資料庫的設定）。
+授權：[LGPL-3](LICENSE)（同 Odoo 社群版）。
 依 CorPaaS 夥伴開發手冊：模組資料夾直接放在 repo 根目錄；分支 `dev-18.0`（開發）、`18.0`（穩定）、`feature/<主題>`。
 
 | 模組 | 用途 |
