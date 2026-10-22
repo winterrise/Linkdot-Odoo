@@ -17,18 +17,14 @@ class HrEmployee(models.Model):
         'linkdot.health.check', 'employee_id', string='Health Checks', groups=OFFICER_GROUP)
     health_check_count = fields.Integer(
         compute='_compute_health_check_count', groups=OFFICER_GROUP)
+    # 員工資料上的非公開欄位要限定 HR 權限（hr 模組慣例），否則非 HR 使用者讀員工時會連帶讀到而被擋；
+    # 健康管理人員改由 linkdot.health.check.employee.status 讀這兩個日期。
     last_health_check_date = fields.Date(
         string='Last General Health Check', compute='_compute_health_check_dates',
-        store=True, groups=OFFICER_GROUP)
+        store=True, groups='hr.group_hr_user')
     next_health_check_date = fields.Date(
         string='Next General Health Check Due', compute='_compute_health_check_dates',
-        store=True, groups=OFFICER_GROUP)
-    health_check_status = fields.Selection([
-        ('no_record', 'No Record'),
-        ('ok', 'Up to Date'),
-        ('due_soon', 'Due Soon'),
-        ('overdue', 'Overdue'),
-    ], string='Health Check Status', compute='_compute_health_check_status', groups=OFFICER_GROUP)
+        store=True, groups='hr.group_hr_user')
 
     @api.depends('health_check_ids')
     def _compute_health_check_count(self):
@@ -67,20 +63,6 @@ class HrEmployee(models.Model):
                 return candidate
         return last_date + relativedelta(years=5)
 
-    @api.depends('next_health_check_date')
-    def _compute_health_check_status(self):
-        today = fields.Date.context_today(self)
-        due_soon = today + timedelta(days=self._get_health_check_reminder_days())
-        for employee in self:
-            next_date = employee.next_health_check_date
-            if not next_date:
-                employee.health_check_status = 'no_record'
-            elif next_date < today:
-                employee.health_check_status = 'overdue'
-            elif next_date <= due_soon:
-                employee.health_check_status = 'due_soon'
-            else:
-                employee.health_check_status = 'ok'
 
     @api.model
     def _get_health_check_reminder_days(self):

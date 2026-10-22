@@ -25,7 +25,7 @@
               action="linkdot_health_check_plan_wizard_action" sequence="30"/>
 
     <menuitem id="menu_health_check_employee_status" name="Employee Status" parent="menu_health_check_root"
-              action="hr_employee_action_health_check_status" sequence="20" groups="group_health_check_officer"/>
+              action="linkdot_health_check_employee_status_action" sequence="20" groups="group_health_check_officer"/>
 
     <menuitem id="menu_health_check_config" name="Configuration" parent="menu_health_check_root"
               sequence="90" groups="group_health_check_manager"/>
