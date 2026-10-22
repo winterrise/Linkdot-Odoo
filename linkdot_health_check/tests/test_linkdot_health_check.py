@@ -117,8 +117,9 @@ class TestLinkdotHealthCheck(TransactionCase):
         self.assertEqual(open_checks.employee_id, self.staff)
         self.assertEqual(open_checks.scheduled_date, date(2026, 11, 1))
         self.assertEqual(open_checks.activity_ids.user_id, self.officer)
-        self.assertEqual(self.staff.health_check_status, 'due_soon')
-        self.assertEqual(self.other.health_check_status, 'ok')
+        Status = self.env['linkdot.health.check.employee.status']
+        self.assertEqual(Status.browse(self.staff.id).health_check_status, 'due_soon')
+        self.assertEqual(Status.browse(self.other.id).health_check_status, 'ok')
         # 再跑一次不會重複建立
         Employee._cron_create_due_health_checks()
         self.assertEqual(self.Check.search_count([('state', '=', 'draft'), ('employee_id', '=', self.staff.id)]), 1)
@@ -135,6 +136,52 @@ class TestLinkdotHealthCheck(TransactionCase):
         self.assertIn(existing, checks)
         self.assertEqual(set(checks.mapped('state')), {'scheduled'})
 
+
+    def test_officer_has_no_hr_rights(self):
+        self.assertFalse(self.officer.has_group('hr.group_hr_user'))
+        with self.assertRaises(AccessError):
+            self.staff.with_user(self.officer).read(['birthday'])
+
+    def test_officer_reads_status_with_birthday(self):
+        self._done_check(self.staff, date(2024, 3, 1))
+        Status = self.env['linkdot.health.check.employee.status'].with_user(self.officer)
+        [row] = Status.search_read(
+            [('id', '=', self.staff.id)],
+            ['name', 'birthday', 'department_id', 'last_health_check_date', 'next_health_check_date',
+             'health_check_status', 'health_check_count'])
+        self.assertEqual(row['birthday'], date(1990, 6, 1))
+        self.assertEqual(row['next_health_check_date'], date(2029, 3, 1))
+        self.assertEqual(row['health_check_count'], 1)
+        self.assertIn(self.staff.id, Status.search([('birthday', '!=', False)]).ids)
+        action = Status.browse(self.staff.id).action_open_health_checks()
+        self.assertEqual(action['domain'], [('employee_id', '=', self.staff.id)])
+
+    def test_staff_cannot_read_status(self):
+        with self.assertRaises(AccessError):
+            self.env['linkdot.health.check.employee.status'].with_user(self.staff_user).search_read([], ['birthday'])
+
+    def test_officer_completes_check_without_hr_rights(self):
+        check = self.Check.with_user(self.officer).create({
+            'employee_id': self.staff.id, 'scheduled_date': date(2026, 4, 1)})
+        check.action_done()
+        self.assertEqual(self.staff.next_health_check_date, date(2031, 4, 1))
+        # 列表、表單會讀員工名稱（Odoo 對非 HR 使用者改走 hr.employee.public）
+        spec = {'employee_id': {'fields': {'display_name': {}}}, 'provider_id': {'fields': {'display_name': {}}}}
+        [rec] = check.with_user(self.officer).web_read(spec)
+        self.assertEqual(rec['employee_id']['display_name'], 'Staff')
+        [rec] = check.with_user(self.staff_user).web_read(spec)
+        self.assertEqual(rec['employee_id']['display_name'], 'Staff')
+
+    def test_wizard_from_status_list(self):
+        wizard = self.env['linkdot.health.check.plan.wizard'].with_user(self.officer).with_context(
+            active_model='linkdot.health.check.employee.status', active_ids=[self.staff.id],
+        ).create({'scheduled_date': date(2026, 12, 1)})
+        self.assertEqual(wizard.employee_ids, self.staff)
+
+    def test_officer_setting_requires_officer_group(self):
+        with self.assertRaises(ValidationError):
+            self.env.company.health_check_officer_id = self.staff_user
+        self.env.company.health_check_officer_id = self.officer
 
 @tagged('post_install', '-at_install')
 class TestLinkdotHealthCheckProvider(TransactionCase):

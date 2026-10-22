@@ -18,7 +18,9 @@ class LinkdotHealthCheckPlanWizard(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        if 'employee_ids' in fields_list and self.env.context.get('active_model') == 'hr.employee':
+        # 員工健檢狀況的 id 就是員工 id
+        if 'employee_ids' in fields_list and self.env.context.get('active_model') in (
+                'hr.employee', 'linkdot.health.check.employee.status'):
             res['employee_ids'] = [(6, 0, self.env.context.get('active_ids', []))]
         return res
 
