@@ -13,6 +13,19 @@ CHECK_TYPES = [
 CYCLE_RESETTING_TYPES = ('pre_employment', 'general')
 
 
+def _provider_domain():
+    """醫療機構只列出同公司（或共用）且能做該類檢查的機構；前端以 check_type、company_id 求值。"""
+    base = "('company_id', 'in', [False, company_id])"
+    expr = "[%s]" % base
+    for check_type in ('pre_employment', 'general', 'special'):
+        expr = "[%s, ('offers_%s', '=', True)] if check_type == '%s' else %s" % (
+            base, check_type, check_type, expr)
+    return expr
+
+
+PROVIDER_DOMAIN = _provider_domain()
+
+
 class LinkdotHealthCheck(models.Model):
     _name = 'linkdot.health.check'
     _description = 'Employee Health Check'
@@ -39,8 +52,10 @@ class LinkdotHealthCheck(models.Model):
         ('cancelled', 'Cancelled'),
     ], string='Status', required=True, default='draft', tracking=True, copy=False)
     provider_id = fields.Many2one(
-        'res.partner', string='Medical Institution', tracking=True,
-        help="Recognized medical institution that performs the check.")
+        'linkdot.health.check.provider', string='Medical Institution', tracking=True,
+        domain=PROVIDER_DOMAIN, ondelete='restrict',
+        help="Medical institution that performs the check. Administrators maintain the list "
+             "in Health Checks > Configuration > Medical Institutions.")
     scheduled_date = fields.Date(string='Scheduled Date', tracking=True)
     check_date = fields.Date(string='Check Date', tracking=True, copy=False)
 

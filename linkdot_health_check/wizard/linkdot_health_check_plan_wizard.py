@@ -1,6 +1,6 @@
 from odoo import _, api, fields, models
 
-from ..models.linkdot_health_check import CHECK_TYPES
+from ..models.linkdot_health_check import CHECK_TYPES, PROVIDER_DOMAIN
 
 
 class LinkdotHealthCheckPlanWizard(models.TransientModel):
@@ -10,7 +10,9 @@ class LinkdotHealthCheckPlanWizard(models.TransientModel):
     employee_ids = fields.Many2many('hr.employee', string='Employees', required=True)
     check_type = fields.Selection(CHECK_TYPES, string='Check Type', required=True, default='general')
     special_hazard = fields.Char(string='Special Hazardous Work')
-    provider_id = fields.Many2one('res.partner', string='Medical Institution')
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+    provider_id = fields.Many2one(
+        'linkdot.health.check.provider', string='Medical Institution', domain=PROVIDER_DOMAIN)
     scheduled_date = fields.Date(string='Scheduled Date', required=True)
 
     @api.model

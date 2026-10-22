@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250428\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 02:13+0000\n"
-"PO-Revision-Date: 2026-10-22 02:13+0000\n"
+"POT-Creation-Date: 2026-10-22 04:38+0000\n"
+"PO-Revision-Date: 2026-10-22 04:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,11 @@ msgid "A completed health check needs a check date."
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.constraint,message:linkdot_health_check.constraint_linkdot_health_check_provider_name_company_uniq
+msgid "A medical institution with this name already exists."
+msgstr ""
+
+#. module: linkdot_health_check
 #. odoo-python
 #: code:addons/linkdot_health_check/models/linkdot_health_check.py:0
 msgid "A special health check must state its hazardous work item."
@@ -41,6 +46,11 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__message_needaction
 msgid "Action Needed"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__active
+msgid "Active"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -64,6 +74,16 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model_terms:ir.actions.act_window,help:linkdot_health_check.linkdot_health_check_provider_action
+msgid "Add a medical institution"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__address
+msgid "Address"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:res.groups,name:linkdot_health_check.group_health_check_manager
 msgid "Administrator"
 msgstr ""
@@ -71,6 +91,12 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_all
 msgid "All Health Checks"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_search
+msgid "Archived"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -102,6 +128,11 @@ msgid "Check Type"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+msgid "Check Types Offered"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.hr_employee_view_list_health_check
 msgid "Checks"
 msgstr ""
@@ -113,6 +144,8 @@ msgstr ""
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__company_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__company_id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__company_id
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__paid_by__company
 msgid "Company"
 msgstr ""
@@ -136,6 +169,16 @@ msgid "Configuration"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__contact_name
+msgid "Contact Person"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+msgid "Contract, prices, booking instructions..."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__cost
 msgid "Cost"
 msgstr ""
@@ -154,12 +197,14 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__create_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__create_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__create_date
 msgid "Created on"
 msgstr ""
 
@@ -183,6 +228,7 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__display_name
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__display_name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -293,6 +339,7 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__general
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__general
 msgid "General Health Check"
@@ -330,6 +377,11 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:mail.activity.type,name:linkdot_health_check.mail_activity_type_follow_up
 msgid "Health Check Follow-up"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model,name:linkdot_health_check.model_linkdot_health_check_provider
+msgid "Health Check Medical Institution"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -374,6 +426,7 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__id
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__id
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__id
 msgid "ID"
 msgstr ""
 
@@ -416,13 +469,20 @@ msgstr ""
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_uid
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_uid
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__write_date
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_plan_wizard__write_date
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check_provider__company_id
+msgid "Leave empty to share this institution with all companies."
 msgstr ""
 
 #. module: linkdot_health_check
@@ -462,6 +522,19 @@ msgid "Medical Institution"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_provider_action
+#: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_provider
+msgid "Medical Institutions"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__provider_id
+msgid ""
+"Medical institution that performs the check. Administrators maintain the "
+"list in Health Checks > Configuration > Medical Institutions."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__message_has_error
 msgid "Message Delivery error"
 msgstr ""
@@ -490,6 +563,7 @@ msgstr ""
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__name
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__name
 msgid "Name"
 msgstr ""
 
@@ -531,6 +605,7 @@ msgstr ""
 
 #. module: linkdot_health_check
 #: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__note
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__note
 msgid "Notes"
 msgstr ""
 
@@ -560,6 +635,13 @@ msgid "Officer: Manage all health checks"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model_terms:ir.actions.act_window,help:linkdot_health_check.linkdot_health_check_provider_action
+msgid ""
+"Officers can only pick institutions from this list when scheduling health "
+"checks."
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__other
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__other
 msgid "Other"
@@ -577,20 +659,25 @@ msgid "Paid By"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__phone
+msgid "Phone"
+msgstr ""
+
+#. module: linkdot_health_check
 #. odoo-python
 #: code:addons/linkdot_health_check/models/linkdot_health_check.py:0
 msgid "Please set the scheduled date of %s first."
 msgstr ""
 
 #. module: linkdot_health_check
-#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__pre_employment
-#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__pre_employment
-msgid "Pre-employment Physical Examination"
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_pre_employment
+msgid "Pre-employment Physical"
 msgstr ""
 
 #. module: linkdot_health_check
-#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check__rating_ids
-msgid "Ratings"
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__pre_employment
+#: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__pre_employment
+msgid "Pre-employment Physical Examination"
 msgstr ""
 
 #. module: linkdot_health_check
@@ -609,11 +696,6 @@ msgstr ""
 #: model:ir.model.fields,help:linkdot_health_check.field_res_config_settings__health_check_officer_id
 msgid ""
 "Receives reminders for due health checks and abnormal-result follow-ups."
-msgstr ""
-
-#. module: linkdot_health_check
-#: model:ir.model.fields,help:linkdot_health_check.field_linkdot_health_check__provider_id
-msgid "Recognized medical institution that performs the check."
 msgstr ""
 
 #. module: linkdot_health_check
@@ -708,6 +790,11 @@ msgid "Scheduled Health Checks"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: linkdot_health_check
 #: model:ir.actions.act_window,name:linkdot_health_check.linkdot_health_check_settings_action
 #: model:ir.ui.menu,name:linkdot_health_check.menu_health_check_settings
 msgid "Settings"
@@ -720,8 +807,10 @@ msgid "Special Hazardous Work"
 msgstr ""
 
 #. module: linkdot_health_check
+#: model:ir.model.fields,field_description:linkdot_health_check.field_linkdot_health_check_provider__offers_special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check__check_type__special
 #: model:ir.model.fields.selection,name:linkdot_health_check.selection__linkdot_health_check_plan_wizard__check_type__special
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_search
 msgid "Special Health Check"
 msgstr ""
 
@@ -786,4 +875,9 @@ msgstr ""
 #. module: linkdot_health_check
 #: model_terms:ir.ui.view,arch_db:linkdot_health_check.res_config_settings_view_form
 msgid "days"
+msgstr ""
+
+#. module: linkdot_health_check
+#: model_terms:ir.ui.view,arch_db:linkdot_health_check.linkdot_health_check_provider_view_form
+msgid "e.g. National Taiwan University Hospital"
 msgstr ""

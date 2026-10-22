@@ -1,9 +1,12 @@
 from datetime import date
 
 from freezegun import freeze_time
+from psycopg2 import IntegrityError
 
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import TransactionCase, new_test_user, tagged
+from odoo.tools.safe_eval import safe_eval
+from odoo.tools import mute_logger
 
 
 @tagged('post_install', '-at_install')
@@ -131,3 +134,54 @@ class TestLinkdotHealthCheck(TransactionCase):
         self.assertEqual(len(checks), 2)
         self.assertIn(existing, checks)
         self.assertEqual(set(checks.mapped('state')), {'scheduled'})
+
+
+@tagged('post_install', '-at_install')
+class TestLinkdotHealthCheckProvider(TransactionCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.officer = new_test_user(
+            cls.env, login='hcp_officer', groups='base.group_user,linkdot_health_check.group_health_check_officer')
+        cls.manager = new_test_user(
+            cls.env, login='hcp_manager', groups='base.group_user,linkdot_health_check.group_health_check_manager')
+        cls.staff_user = new_test_user(cls.env, login='hcp_staff', groups='base.group_user')
+        cls.Provider = cls.env['linkdot.health.check.provider']
+        cls.general_only = cls.Provider.create({'name': 'General Clinic', 'company_id': False})
+        cls.special = cls.Provider.create({'name': 'Special Hospital', 'offers_special': True})
+        cls.other_company = cls.env['res.company'].create({'name': 'Other Co'})
+        cls.foreign = cls.Provider.create({
+            'name': 'Foreign Hospital', 'offers_special': True, 'company_id': cls.other_company.id})
+        cls.employee = cls.env['hr.employee'].create({'name': 'Staff', 'user_id': cls.staff_user.id})
+
+    def test_only_manager_maintains_institutions(self):
+        self.Provider.with_user(self.manager).create({'name': 'New Clinic'})
+        with self.assertRaises(AccessError):
+            self.Provider.with_user(self.officer).create({'name': 'Officer Clinic'})
+        with self.assertRaises(AccessError):
+            self.general_only.with_user(self.officer).write({'name': 'Renamed'})
+        # 員工看自己的紀錄時要能讀到機構名稱
+        self.assertEqual(self.special.with_user(self.staff_user).name, 'Special Hospital')
+
+    def test_provider_domain_by_check_type(self):
+        Check = self.env['linkdot.health.check']
+        domain_expr = Check._fields['provider_id'].domain
+        company = self.env.company
+
+        def visible(check_type):
+            domain = safe_eval(domain_expr, {'check_type': check_type, 'company_id': company.id})
+            return self.Provider.search(domain) & (self.general_only | self.special | self.foreign)
+
+        self.assertEqual(visible('special'), self.special)
+        self.assertEqual(visible('general'), self.general_only | self.special)
+        self.assertEqual(visible('other'), self.general_only | self.special)
+        wizard_expr = self.env['linkdot.health.check.plan.wizard']._fields['provider_id'].domain
+        self.assertEqual(wizard_expr, domain_expr)
+
+    def test_institution_in_use_cannot_be_deleted(self):
+        self.env['linkdot.health.check'].create({'employee_id': self.employee.id, 'provider_id': self.special.id})
+        with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"), self.env.cr.savepoint():
+            self.special.unlink()
+        self.special.active = False
+        self.assertFalse(self.special.active)

@@ -64,7 +64,7 @@
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group>
-                            <field name="provider_id"/>
+                            <field name="provider_id" options="{'no_create': True}"/>
                             <field name="scheduled_date"/>
                             <field name="check_date" required="state == 'done'"/>
                         </group>
